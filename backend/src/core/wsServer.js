@@ -17,6 +17,20 @@ wsServer.on('connection', (socket, req) => {
         } else if (name == 'rollDice') {
             game.rollDice(player);
 
+        }else if (name == 'setMyName') {
+            game.setMyName(player, data);
+
+        }else if (name == 'ban') {
+            game.ban(data);
+        }
+        else if (name == 'skipTurn') {
+            game.nextPlayer(player);
+        }
+        else if (name == 'buyCurrent') {
+            game.buyCurrent(player);
+        }
+        else if (name == 'buildHouse') {
+            game.buildHouse(player, data);
         }
     });
 });
