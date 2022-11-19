@@ -7,7 +7,7 @@
     <div class="monopoly-board">
       <div class="row">
         <div class="corner"></div>
-        <div class="elements row">
+        <div class="elements">
           <RowElement v-for="element in rowElements"></RowElement>
         </div>
         <div class="corner"></div>
@@ -25,7 +25,7 @@
 
       <div class="row">
         <div class="corner"></div>
-        <div class="elements row">
+        <div class="elements">
           <RowElement v-for="element in rowElements"></RowElement>
         </div>
         <div class="corner" style="z-index: 2;"></div>
@@ -63,7 +63,10 @@ export default {
   $cornerColor: #abcacd;
   $rowElements: 7;
   --paddings: 20px;
---mainSize:min(100vw, 100vh);
+--mainSize:min(100vw - var(--paddingsX2), 100vh - var(--paddingsX2));
+  transition: 1s ease all;
+  --fieldHeight:calc(var(--mainSize)/(#{$rowElements} + 2) * 1.5);
+  --fieldWidth:calc((var(--mainSize) - var(--fieldHeight) * 2 )/(#{$rowElements}) );
   @media (max-width: 600px) {
     --paddings: 10px;
   }
@@ -103,6 +106,7 @@ export default {
   &.view-3d {
     perspective: 300vh;
     perspective-origin: 50% 50%;
+    --mainSize:min(70vw - var(--paddingsX2), 100vh - var(--paddingsX2));
 
     .monopoly-board {
       transform: rotateX(55deg) rotateZ(45deg);
@@ -116,19 +120,18 @@ export default {
     align-items: center;
     width: fit-content;
     transition: all 0.3s;
-    max-height: calc(var(--mainSize) - var(--paddingsX2));
-    max-width: calc(var(--mainSize) - var(--paddingsX2));
+    max-height: calc(var(--mainSize) );
+    max-width: calc(var(--mainSize) );
     aspect-ratio: 1/1;
 
     .row {
       display: flex;
-      max-width: 100%;
+      width: 100%;
     }
 
     .corner {
-      width: calc((var(--mainSize) / ($rowElements + 2)) - var(--paddings));
-      max-width: calc(var(--mainSize) / $rowElements);
-      height: calc((var(--mainSize) / ($rowElements + 2)) - var(--paddings));
+      width: var(--fieldHeight);
+      height: var(--fieldHeight);
       background: $cornerColor;
       border: 1px solid $shadowColor;
       box-shadow: 1px 1px 0px $shadowColor,
@@ -160,7 +163,7 @@ export default {
     }
 
     .center-board {
-      width: min(calc($width * $rowElements + calc($rowElements * 2px)), calc($height * $rowElements + calc($rowElements * 2px)));
+      flex-grow: 1;
     }
   }
 }

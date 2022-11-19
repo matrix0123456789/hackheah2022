@@ -1,6 +1,6 @@
 <template>
   <div class="row-element" :class="{ column: column }">
-    <!-- <div class="text">250</div> -->
+    <div class="row-element-content">aaaaa</div>
   </div>
 </template>
 
@@ -33,8 +33,6 @@ $rowElements: 7;
 .row-element {
   --paddings: 20px;
 
-  $height: calc((var(--mainSize) / ($rowElements + 2)) - var(--paddings));
-  $width: $height;
 
   @media (max-width: 600px) {
     --paddings: 10px;
@@ -43,9 +41,9 @@ $rowElements: 7;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  width: $width;
-  height: $height;
-  max-width: calc((var(--mainSize) / ($rowElements + 2)) - 2px);
+  width: var(--fieldWidth);
+  height: var(--fieldHeight);
+  box-sizing: border-box;
 
   border: 1px solid $shadowColor;
   background: $tileColor;
@@ -55,10 +53,11 @@ $rowElements: 7;
   4px 4px 0px $shadowColor,
   5px 5px 0px $shadowColor,
   6px 6px 0px $shadowColor;
+  position: relative;
 
   &.column {
-    width: $height;
-    height: $width;
+    width: var(--fieldHeight);
+    height: var(--fieldWidth);
     position: relative;
 
     .text {
@@ -68,6 +67,11 @@ $rowElements: 7;
       left: 50%;
       transform: rotate(-90deg) translateX(calc(-50% + 10px));
     }
+
+    .row-element-content{
+      transform: rotate(-90deg) translateX(-100%);
+      transform-origin: 00% 00%;
+    }
   }
 
   .text {
@@ -75,6 +79,14 @@ $rowElements: 7;
     justify-content: center;
     align-items: center;
     padding: 5px;
+  }
+  .row-element-content{
+
+    width: var(--fieldWidth);
+    height: var(--fieldHeight);
+    position: absolute;
+    left: 0;
+    top: 0;
   }
 }
 </style>
