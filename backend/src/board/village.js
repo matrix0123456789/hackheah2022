@@ -22,9 +22,8 @@ export class Village extends Field {
         } else if (this.owner == player) {
             //do nothing
         } else {
-            let amount = 100;//todo
-            this.owner.money += amount;
-            player.money -= amount;
+            this.owner.money += this.rent;
+            player.money -= this.rent;
             if (player.money < 0) {
                 game.bancrupt(player, this.owner);
             }
