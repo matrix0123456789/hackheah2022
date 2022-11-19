@@ -1,7 +1,8 @@
 import {wsServer} from "./wsServer.js";
 import express from "express";
-console.log('Backend of winning team is starting...')
+import {Game} from "../game/game.js";
 
+console.log('Backend of winning team is starting...')
 
 
 const app = express()
@@ -15,6 +16,24 @@ app.use(function (req, res, next) {
     //res.setHeader('Access-Control-Allow-Origin', '*')
     next();
 });
+
+app.get('/game/', async (req, res) => {
+
+    res.json([...Game.allGames].map((n, g) => {
+        return {name: g.name, players: g.players?.length};
+    }))
+
+
+
+})
+app.get('/game/create', async (req, res) => {
+
+    let game = Game.newGame()
+    res.json({id: game.id});
+
+})
+
+
 const server = app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
