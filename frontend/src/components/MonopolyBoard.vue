@@ -8,25 +8,25 @@
       <div class="row">
         <div class="corner"></div>
         <div class="elements">
-          <RowElement v-for="element in rowElements"></RowElement>
+          <RowElement v-for="element in rowElementsTop" :element="element"></RowElement>
         </div>
         <div class="corner"></div>
       </div>
 
       <div class="row">
         <div class="elements column last-no-shadow">
-          <RowElement v-for="element in rowElements" :column="true"></RowElement>
+          <RowElement v-for="element in rowElementsLeft" :element="element" :column="true"></RowElement>
         </div>
         <div class="center-board"></div>
         <div class="elements column">
-          <RowElement v-for="element in rowElements" :column="true"></RowElement>
+          <RowElement v-for="element in rowElementsRight" :element="element" :column="true"></RowElement>
         </div>
       </div>
 
       <div class="row">
         <div class="corner"></div>
         <div class="elements">
-          <RowElement v-for="element in rowElements"></RowElement>
+          <RowElement v-for="element in rowElementsBottom" :element="element"></RowElement>
         </div>
         <div class="corner" style="z-index: 2;"></div>
       </div>
@@ -37,12 +37,18 @@
 
 <script>
 import RowElement from './RowElement.vue';
+import {BoardsFields} from "../data";
 
 export default {
   data() {
     return {
-      rowElements: 7,
-      is3D: false
+      rowElements: 9,
+      rowElementsTop:BoardsFields.slice(21,30),
+      rowElementsBottom:BoardsFields.slice(1,10).reverse(),
+      rowElementsLeft:BoardsFields.slice(11,20).reverse(),
+      rowElementsRight:BoardsFields.slice(31,40),
+      is3D: false,
+
     }
   },
   components: {
@@ -61,7 +67,7 @@ export default {
   $tileColor: #ece4e7;
   $shadowColor: #d9c7ce;
   $cornerColor: #abcacd;
-  $rowElements: 7;
+  $rowElements: 9;
   --paddings: 20px;
 --mainSize:min(100vw - var(--paddingsX2), 100vh - var(--paddingsX2));
   transition: 1s ease all;
