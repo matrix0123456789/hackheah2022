@@ -4,6 +4,8 @@ import {Windmill} from "../board/windmill.js";
 import {Start} from "../board/start.js";
 import {Village} from "../board/village.js";
 import {Field} from "../board/field.js";
+import {Leaderboard} from "../player/leaderboard.js";
+import {Chance} from "../core/chance.js";
 
 export class Game {
     static allGames = new Map();
@@ -87,7 +89,7 @@ export class Game {
     }
 
     start() {
-        if (this.status == 'waiting') {
+        if (this.status == 'waiting' && this.players.length>=2) {
             this.status = 'playing';
             this.updateAll();
         }
@@ -171,6 +173,8 @@ export class Game {
         }
         if (this.players.filter(x => x.money >= 0).length == 1) {
             this.status = 'finished'
+            let winner=this.players.filter(x => x.money >= 0)[0]
+            Leaderboard.add(winner.name, winner.money)
         }
     }
 

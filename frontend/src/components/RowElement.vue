@@ -33,7 +33,7 @@ $rowElements: 7;
 .row-element {
   --paddings: 20px;
 
-  $height: min(calc((100vh / ($rowElements + 2)) - var(--paddings)), calc((100vw / ($rowElements + 2)) - var(--paddings)));
+  $height: calc((var(--mainSize) / ($rowElements + 2)) - var(--paddings));
   $width: $height;
 
   @media (max-width: 600px) {
@@ -45,7 +45,7 @@ $rowElements: 7;
   justify-content: flex-end;
   width: $width;
   height: $height;
-  max-width: min(calc((100vw / ($rowElements + 2)) - 2px), calc((100vh / ($rowElements + 2)) - 2px));
+  max-width: calc((var(--mainSize) / ($rowElements + 2)) - 2px);
 
   border: 1px solid $shadowColor;
   background: $tileColor;

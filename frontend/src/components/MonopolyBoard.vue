@@ -63,7 +63,7 @@ export default {
   $cornerColor: #abcacd;
   $rowElements: 7;
   --paddings: 20px;
-
+--mainSize:min(100vw, 100vh);
   @media (max-width: 600px) {
     --paddings: 10px;
   }
@@ -116,8 +116,8 @@ export default {
     align-items: center;
     width: fit-content;
     transition: all 0.3s;
-    max-height: min(calc(100vw - var(--paddingsX2)), calc(100vh - var(--paddingsX2)));
-    max-width: min(calc(100vw - var(--paddingsX2)), calc(100vh - var(--paddingsX2)));
+    max-height: calc(var(--mainSize) - var(--paddingsX2));
+    max-width: calc(var(--mainSize) - var(--paddingsX2));
     aspect-ratio: 1/1;
 
     .row {
@@ -126,9 +126,9 @@ export default {
     }
 
     .corner {
-      width: min(calc(100vh / ($rowElements + 2)) - var(--paddings), calc(100vw / ($rowElements + 2)) - var(--paddings));
-      max-width: min(calc(100vw / $rowElements), calc(100vh / $rowElements));
-      height: min(calc(100vh / ($rowElements + 2)) - var(--paddings), calc(100vw / ($rowElements + 2)) - var(--paddings));
+      width: calc((var(--mainSize) / ($rowElements + 2)) - var(--paddings));
+      max-width: calc(var(--mainSize) / $rowElements);
+      height: calc((var(--mainSize) / ($rowElements + 2)) - var(--paddings));
       background: $cornerColor;
       border: 1px solid $shadowColor;
       box-shadow: 1px 1px 0px $shadowColor,

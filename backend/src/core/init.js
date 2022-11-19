@@ -1,4 +1,4 @@
-import {wsServer} from "./wsServer.js";
+import {sendGamesListToEverybody, wsServer} from "./wsServer.js";
 import express from "express";
 import {Game} from "../game/game.js";
 
@@ -24,13 +24,12 @@ app.get('/game/', async (req, res) => {
     }))
 
 
-
 })
 app.get('/game/create', async (req, res) => {
 
     let game = Game.newGame()
     res.json({id: game.id});
-
+    sendGamesListToEverybody()
 })
 
 
