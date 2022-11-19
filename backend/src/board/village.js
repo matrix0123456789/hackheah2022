@@ -8,6 +8,9 @@ export class Village extends Field {
     basicRent = [20,100,200,300,400,500];
     housePrice = 100;
 
+    constructor(name, country, price, housePrice, basicRent) {
+        super();
+    }
     allDataToJson() {
         return {type: this.getTypeName(), owner: this.owner?.id ?? null, houseCount: this.houseCount}
     }
