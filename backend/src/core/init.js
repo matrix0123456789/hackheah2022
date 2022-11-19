@@ -19,7 +19,7 @@ app.use(function (req, res, next) {
 
 app.get('/game/', async (req, res) => {
 
-    res.json([...Game.allGames].map((n, g) => {
+    res.json([...Game.allGames].map(([n, g]) => {
         return {name: g.name, players: g.players?.length};
     }))
 
