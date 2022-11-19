@@ -8,9 +8,12 @@ import MonopolyBoard from './components/MonopolyBoard.vue';
   </main>
 </template>
 
-<style scoped>
+<style lang="scss">
 header {
   line-height: 1.5;
 }
 
+body {
+  margin: 0;
+}
 </style>

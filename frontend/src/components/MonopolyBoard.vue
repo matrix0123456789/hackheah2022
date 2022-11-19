@@ -56,20 +56,34 @@ export default {
 }
 </script>
 
-<style lang="scss">
-$tileColor: #ece4e7;
-$shadowColor: #d9c7ce;
-$cornerColor: #abcacd;
-$rowElements: 7;
-
-$maxWidth: calc((100vw / ($rowElements + 2)) - 20px);
-$height: calc((100vh / ($rowElements + 2)) - 20px);
-$width: $height;
-// $height: width;
-
+<style scoped lang="scss">
 .monopoly-board-wrapper {
+  $tileColor: #ece4e7;
+  $shadowColor: #d9c7ce;
+  $cornerColor: #abcacd;
+  $rowElements: 7;
+  --paddings: 20px;
+
+  @media (max-width: 600px) {
+    --paddings: 10px;
+  }
+
+  --paddingsX2: calc(var(--paddings) * 2);
+
+
+
+  $maxWidth: calc((100vw / ($rowElements + 2)) - var(--paddings));
+  $height: calc((100vh / ($rowElements + 2)) - var(--paddings));
+  $width: calc((100vw / ($rowElements + 2)) - var(--paddings));
+
+
   position: relative;
-  width: fit-content;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   .switch-3d {
     display: flex;
@@ -77,7 +91,7 @@ $width: $height;
     align-items: center;
     cursor: pointer;
     position: absolute;
-    left: calc(100% + 30px);
+    left: calc(100vw - 75px);
     top: 10px;
     width: 50px;
     height: 50px;
@@ -99,30 +113,30 @@ $width: $height;
   .monopoly-board {
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: fit-content;
-    margin-left: 100px;
-    margin-top: 50px;
     transition: all 0.3s;
-    // max-width: 100vw;
-    // max-height: 100vh;
-    // width: 100%;
-    // height: 100%;
+    max-height: min(calc(100vw - var(--paddingsX2)), calc(100vh - var(--paddingsX2)));
+    max-width: min(calc(100vw - var(--paddingsX2)), calc(100vh - var(--paddingsX2)));
+    aspect-ratio: 1/1;
 
     .row {
       display: flex;
+      max-width: 100%;
     }
 
     .corner {
-      width: $width;
-      height: $width;
+      width: min(calc(100vh / ($rowElements + 2)) - var(--paddings), calc(100vw / ($rowElements + 2)) - var(--paddings));
+      max-width: min(calc(100vw / $rowElements), calc(100vh / $rowElements));
+      height: min(calc(100vh / ($rowElements + 2)) - var(--paddings), calc(100vw / ($rowElements + 2)) - var(--paddings));
       background: $cornerColor;
       border: 1px solid $shadowColor;
       box-shadow: 1px 1px 0px $shadowColor,
-          2px 2px 0px $shadowColor,
-          3px 3px 0px $shadowColor,
-          4px 4px 0px $shadowColor,
-          5px 5px 0px $shadowColor,
-          6px 6px 0px $shadowColor,
+        2px 2px 0px $shadowColor,
+        3px 3px 0px $shadowColor,
+        4px 4px 0px $shadowColor,
+        5px 5px 0px $shadowColor,
+        6px 6px 0px $shadowColor,
     }
 
     .elements {
@@ -134,19 +148,19 @@ $width: $height;
         &.last-no-shadow {
           .row-element:last-child {
             box-shadow: 1px 0px 0px $shadowColor,
-          2px 0px 0px $shadowColor,
-          3px 0px 0px $shadowColor,
-          4px 0px 0px $shadowColor,
-          5px 0px 0px $shadowColor,
-          6px 0px 0px $shadowColor,
+              2px 0px 0px $shadowColor,
+              3px 0px 0px $shadowColor,
+              4px 0px 0px $shadowColor,
+              5px 0px 0px $shadowColor,
+              6px 0px 0px $shadowColor,
           }
-       
+
         }
       }
     }
 
     .center-board {
-      width: calc($height * $rowElements + calc($rowElements * 2px));
+      width: min(calc($width * $rowElements + calc($rowElements * 2px)), calc($height * $rowElements + calc($rowElements * 2px)));
     }
   }
 }
