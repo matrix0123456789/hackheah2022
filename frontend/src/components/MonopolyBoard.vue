@@ -24,16 +24,16 @@
       </div>
 
       <div class="row">
-        <div class="corner shorter">Miejsce odpoczynku</div>
+        <div class="corner">Miejsce odpoczynku</div>
         <div class="elements">
           <RowElement v-for="element in rowElementsBottom" :element="element"></RowElement>
         </div>
-        <div class="corner shorter" style="z-index: 2;"></div>
         <div class="corner" style="z-index: 2;">Start</div>
       </div>
-      <div class="player-counter bottom" style="--position:5"></div>
-      <div class="player-counter left" style="--position:12"></div>
-      <div class="player-counter top" style="--position:20"></div>
+      <player-counter :position="1" color="red"/>
+      <player-counter :position="8" color="blue"/>
+      <player-counter :position="22" color="green"/>
+      <player-counter :position="35" color="yellow"/>
     </div>
     <div class="players">
       <div class="player player-red">
@@ -58,7 +58,9 @@
 
 <script>
 import RowElement from './RowElement.vue';
-import { BoardsFields } from "../data";
+import {BoardsFields} from "../data";
+import PlayerCounter from "./PlayerCounter.vue";
+
 
 export default {
   data() {
@@ -73,7 +75,7 @@ export default {
     }
   },
   components: {
-    RowElement
+    RowElement, PlayerCounter
   },
   props: {
     column: {
@@ -89,7 +91,7 @@ export default {
   $shadowColor: #d9c7ce;
   $cornerColor: #abcacd;
   $rowElements: 9;
-  --paddings: 20px;
+  --paddings: 32px;
   --mainSize: min(100vw - var(--paddingsX2), 100vh - var(--paddingsX2));
   transition: 1s ease all;
   --fieldHeight: calc(var(--mainSize) / (#{$rowElements} + 2) * 1.5);
@@ -134,10 +136,13 @@ export default {
 
   &.view-3d {
     --mainSize: min(70vw - var(--paddingsX2), 100vh - var(--paddingsX2));
-    --rotate: rotateX(-90deg);
+    --rotate: rotateX(-90deg) rotateZ(0deg)  rotateY(45deg);
 
     .monopoly-board {
       transform: rotateX(55deg) rotateZ(45deg);
+    }
+    .column{
+      --rotate: rotateX(-90deg) rotateZ(0deg)  rotateY(-45deg);
     }
   }
 
@@ -162,9 +167,9 @@ export default {
     .corner {
       &.shorter {
         box-shadow: 1px 1px 0px $shadowColor,
-          2px 2px 0px $shadowColor,
-          3px 3px 0px $shadowColor,
-          6px 4.5px 0 $shadowColor,
+        2px 2px 0px $shadowColor,
+        3px 3px 0px $shadowColor,
+        6px 4.5px 0 $shadowColor,
       }
 
       width: var(--fieldHeight);
@@ -206,41 +211,18 @@ export default {
       background-size: cover;
     }
 
-    .player-counter {
-      width: 20px;
-      height: 60px;
-      background: red;
-      position: absolute;
 
-      &.bottom {
-        bottom: 0;
-        right: calc(var(--position) / 10 * var(--mainSize));
-      }
-
-      &.left {
-        left: 0;
-        bottom: calc((var(--position) - 10) / 10 * var(--mainSize));
-      }
-
-      &.top {
-        top: 0;
-        left: calc((var(--position) - 20) / 10 * var(--mainSize));
-      }
-
-      &.right {
-        right: 0;
-        top: calc((var(--position) - 30) / 10 * var(--mainSize));
-      }
-    }
   }
 
   .players {
-    font-size: min(4vw, 4vh);
+    font-size: 16px;
+    line-height: 1;
+
     .player-red {
       position: absolute;
       left: 0;
       top: 0;
-      color:#ef0163;
+      color: #ef0163;
     }
 
     .player-green {

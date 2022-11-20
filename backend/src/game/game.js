@@ -40,7 +40,7 @@ export class Game {
         new Village('Selistat', 'romania', 120, 50, [8, 40, 100, 300, 450, 600]),
         new Resting(),
         new Village('Koruna', 'czekia', 140, 100, [10, 50, 150, 450, 625, 750]),
-        new Field(),
+        new Church(),
          new Village('Vortova', 'czekia', 140, 100, [10, 50, 150, 450, 625, 750]),
         new Village('Veprikov', 'czekia', 160, 100, [12, 60, 180, 500, 700, 900]),
         new Windmill(),
@@ -66,7 +66,7 @@ export class Game {
         new Windmill(),
         new Chance(),
         new Village('Ердеч', 'serbia', 350, 200, [35, 175, 500, 1100, 1300, 1500]),
-        new Field(),
+        new Church(),
         new Village('Секурич', 'serbia', 400, 200, [50, 200, 600, 1400, 1700, 2000]),
         new Village('Секурич', 'serbia', 400, 200, [50, 200, 600, 1400, 1700, 2000]),]
 
@@ -136,6 +136,9 @@ export class Game {
             this.players.splice(index, 1);
             if (this.currentTurnIndex == index) {
                 this.nextPlayer(player)
+            }
+            if(this.players.length==0){
+                Game.allGames.delete(this.id)
             }
             this.updateAll();
         }
