@@ -10,8 +10,8 @@
           <div class="players" :class="{ disabled: game.players.length >= 4 }">
             <div class="title">Gracze</div>
             <div class="list">
-              <div v-for="player in game.players" class="player">
-                {{ player.name }}
+              <div v-for="player, key in game.players" class="player">
+                {{ player.name }}{{ key !== game.players.length - 1 ? ',' : '' }}
               </div>
             </div>
           </div>
@@ -124,6 +124,10 @@ export default {
         flex: 1;
         margin-right: 20px;
         font-size: 16px;
+
+        .player {
+          margin-right: 6px;
+        }
 
         .list {
           display: flex;
