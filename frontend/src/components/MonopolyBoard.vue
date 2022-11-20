@@ -1,8 +1,8 @@
 <template>
   <div class="monopoly-board-wrapper" :class="{ 'view-3d': is3D }">
-    <div class="switch-3d" @click="is3D = !is3D">
+    <button class="switch-3d" @click="is3D = !is3D">
       {{ is3D ? '2D' : '3D' }}
-    </div>
+    </button>
 
     <div class="monopoly-board">
       <div class="row">
@@ -30,27 +30,37 @@
         </div>
         <div class="corner" style="z-index: 2;">Start</div>
       </div>
-      <template v-if="websocketStore.allData&&websocketStore.allData.game">
+      <template v-if="websocketStore.allData && websocketStore.allData.game">
         <player-counter v-for="player in websocketStore.allData.game.players" :position="player.position"
-                        :color="player.color"/>
+          :color="player.color" />
       </template>
     </div>
-    <div class="players" v-if="websocketStore.allData&&websocketStore.allData.game">
+    <div class="players" v-if="websocketStore.allData && websocketStore.allData.game">
 
-      <div :class="['player', 'player-'+player.color]" v-for="player in websocketStore.allData.game.players">
-        <div class="name">{{ player.name }}</div>
-        <div class="money">{{ player.money }}</div>
+      <div :class="['player', 'player-' + player.color]" v-for="player in websocketStore.allData.game.players">
+
+
+        <span>{{ player.name }}</span>, {{ player.money }}<img src="../assets/monety.png" />
+
+        <!-- <div class="name">{{ player.name }}</div>
+        <div class="money">
+          {{ player.money }}
+          <img src="../assets/monety.png" />
+        </div> -->
       </div>
     </div>
   </div>
+
+  <!-- <div class="list p0">
+                <span>NickName</span>, 300<img src="./monety.png">
+            </div> -->
 </template>
 
 <script>
 import RowElement from './RowElement.vue';
-import {BoardsFields} from "../data";
-import {useWebsocketStore} from '@/stores/websocketStore'
+import { BoardsFields } from "../data";
+import { useWebsocketStore } from '@/stores/websocketStore'
 import PlayerCounter from "./PlayerCounter.vue";
-
 
 export default {
   components: {
@@ -68,18 +78,17 @@ export default {
     }
   },
   computed: {
-
     rowElementsTop() {
-      return (this.websocketStore?.allData?.game?.board||BoardsFields).slice(21, 30);
+      return (this.websocketStore?.allData?.game?.board || BoardsFields).slice(21, 30);
     },
     rowElementsBottom() {
-      return (this.websocketStore?.allData?.game?.board||BoardsFields).slice(1, 10).reverse();
+      return (this.websocketStore?.allData?.game?.board || BoardsFields).slice(1, 10).reverse();
     },
     rowElementsLeft() {
-      return (this.websocketStore?.allData?.game?.board||BoardsFields).slice(11, 20).reverse();
+      return (this.websocketStore?.allData?.game?.board || BoardsFields).slice(11, 20).reverse();
     },
     rowElementsRight() {
-      return (this.websocketStore?.allData?.game?.board||BoardsFields).slice(31, 40);
+      return (this.websocketStore?.allData?.game?.board || BoardsFields).slice(31, 40);
     }
   }
 }
@@ -96,6 +105,7 @@ export default {
   transition: 1s ease all;
   --fieldHeight: calc(var(--mainSize) / (#{$rowElements} + 2) * 1.5);
   --fieldWidth: calc((var(--mainSize) - var(--fieldHeight) * 2) / (#{$rowElements}));
+
   @media (max-width: 600px) {
     --paddings: 10px;
   }
@@ -120,19 +130,16 @@ export default {
   --rotate: rotateX(0);
 
   .switch-3d {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     cursor: pointer;
     position: absolute;
     left: calc(100vw - 75px);
-    top: 10px;
-    width: 50px;
-    height: 50px;
+    top: 70px;
     border-radius: 50%;
-    background: blue;
-    color: white;
+            border: 4px solid rgba(106,59,8,1);
+            width: 55px;
+            height: 55px;
   }
+
 
   &.view-3d {
     --mainSize: min(70vw - var(--paddingsX2), 100vh - var(--paddingsX2));
@@ -161,16 +168,15 @@ export default {
     .row {
       display: flex;
       width: 100%;
-
       transform-style: preserve-3d;
     }
 
     .corner {
       &.shorter {
         box-shadow: 1px 1px 0px $shadowColor,
-        2px 2px 0px $shadowColor,
-        3px 3px 0px $shadowColor,
-        6px 4.5px 0 $shadowColor,
+          2px 2px 0px $shadowColor,
+          3px 3px 0px $shadowColor,
+          6px 4.5px 0 $shadowColor,
       }
 
       width: var(--fieldHeight);
@@ -196,11 +202,11 @@ export default {
         &.last-no-shadow {
           .row-element:last-child {
             box-shadow: 1px 0px 0px $shadowColor,
-            2px 0px 0px $shadowColor,
-            3px 0px 0px $shadowColor,
-            4px 0px 0px $shadowColor,
-            5px 0px 0px $shadowColor,
-            6px 0px 0px $shadowColor,
+              2px 0px 0px $shadowColor,
+              3px 0px 0px $shadowColor,
+              4px 0px 0px $shadowColor,
+              5px 0px 0px $shadowColor,
+              6px 0px 0px $shadowColor,
           }
         }
       }
@@ -211,34 +217,49 @@ export default {
       background: url(../assets/map.svg) 50% 50% no-repeat;
       background-size: cover;
     }
-
-
   }
 
   .players {
-    font-size: 16px;
-    line-height: 1;
+    .player {
+      border-radius: 7px;
+      font-size: 17px;
+      font-weight: 700;
+      color: white;
+      display: flex;
+      align-items: center;
+      position: absolute;
+      padding: 5px 10px;
+      text-shadow: 0 0 5px black;
+      box-shadow: 0 0 8px black;
+      margin: 10px;
+
+      img {
+        width: 20px;
+        margin: 0 10px
+      }
+    }
 
     .player-red {
       position: absolute;
-      left: 0;
-      top: 0;
-      color: #ef0163;
+      left: 10px;
+      top: 10px;
+      background-color: lightcoral;
     }
 
     .player-green {
       position: absolute;
-      right: 0;
-      top: 0;
+      right: 10px;
+      top: 10px;
       text-align: right;
-      color: #24af04;
+      background-color: lightgreen;
+
     }
 
     .player-blue {
       position: absolute;
-      left: 0;
-      bottom: 0;
-      color: #01b7ef;
+      left: 10px;
+      bottom: 10px;
+      background-color: lightblue;
     }
 
     .player-yellow {
@@ -246,7 +267,7 @@ export default {
       right: 0;
       bottom: 0;
       text-align: right;
-      color: #c97002;
+      background-color: lightslategray;
     }
   }
 }
