@@ -1,6 +1,6 @@
 <template>
   <div class="app-content">
-    <MonopolyBoard v-if="2"/>
+    <MonopolyBoard v-if="navigatorStore.currentPage == navigatorStore.pages.home"/>
     <GamesList v-else-if="navigatorStore.currentPage == navigatorStore.pages.gamesList"/>
   </div>
 </template>
