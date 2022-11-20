@@ -1,6 +1,7 @@
 import {ref, computed, reactive} from 'vue'
 import {defineStore} from 'pinia'
 import {useNavigatorStore} from '@/stores/navigator'
+
 export const useWebsocketStore = defineStore('websocketStore', () => {
     const _games = reactive([]);
     const websocketAddress = "ws://localhost:3000";
@@ -17,6 +18,8 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
     const connected = computed(() => _connected.value)
     const connectionError = computed(() => _connectionError.value)
 
+    let ws = null;
+
     function manageWsMessage(message) {
         console.log("manageWsMessage");
 
@@ -31,7 +34,7 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
     }
 
     function connect(username = '') {
-        const ws = new WebSocket(websocketAddress + '/' + encodeURIComponent(username));
+        ws = new WebSocket(websocketAddress + '/' + encodeURIComponent(username));
         _connecting.value = false;
 
         ws.onopen = () => {
@@ -39,7 +42,7 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
             _connected.value = true;
             _connecting.value = false;
             _connectionError.value = false;
-            setUserName(username);  
+            setUserName(username);
             navigator.goToPage(navigator.pages.gamesList);
             // // subscribe to some channels
             // ws.send(JSON.stringify({
@@ -76,11 +79,21 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
         };
     }
 
+    function createGame() {
+        console.log("sddsdssdsd");
+        if (!ws) {
+            return;
+        }
+
+        ws.send(JSON.stringify({name: "createGame"}));
+    }
+
     function refreshGames(newGamesList) {
+        console.log("newGamesList", newGamesList);
         while (_games.length)
             _games.pop();
 
-        for (let newGame in newGamesList) {
+        for (let newGame of newGamesList) {
             _games.push(newGame);
         }
     }
@@ -99,6 +112,7 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
         connect,
         connecting,
         connected,
-        connectionError
+        connectionError,
+        createGame
     }
 })
