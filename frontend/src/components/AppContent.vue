@@ -21,6 +21,9 @@ export default {
       navigatorStore: useNavigatorStore(),
     }
   },
+  mounted() {
+    console.log("sdds", this.navigatorStore.currentPage)
+  }
 }
 </script>
 

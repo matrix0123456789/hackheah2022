@@ -3,16 +3,17 @@ export class Player {
     position = 0;
     money = 0;
 
-    constructor(id, socket) {
+    constructor(id, socket, name) {
         this.id = id;
         this.socket = socket;
+        this.name = name
     }
 
     static allPlayers = new Map();
     static currentId = 1;
 
-    static createPlayer(socket) {
-        let player = new Player(this.currentId++, socket);
+    static createPlayer(socket, username) {
+        let player = new Player(this.currentId++, socket, username);
         this.allPlayers.set(player.id, player);
         return player;
     }

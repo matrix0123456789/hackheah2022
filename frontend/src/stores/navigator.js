@@ -1,4 +1,4 @@
-import {ref, computed} from 'vue'
+import {ref, computed, reactive} from 'vue'
 import {defineStore} from 'pinia'
 
 export const useNavigatorStore = defineStore('navigator', () => {
@@ -14,7 +14,9 @@ export const useNavigatorStore = defineStore('navigator', () => {
     const pages = computed(() => _pages )
 
     function goToPage(page) {
-        if(pages[page]){
+        console.log("goToPage", page);
+
+        if(_pages[page]){
             _currentPage = page
         }
     }
