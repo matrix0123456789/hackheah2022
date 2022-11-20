@@ -5,7 +5,7 @@ export const wsServer = new WebSocketServer({noServer: true});
 wsServer.on('connection', (socket, req) => {
     try {
         let username = decodeURIComponent(req.url.substr(1));
-        if(!username){
+        if (!username) {
             socket.close();
         }
         let game = null;
@@ -26,7 +26,7 @@ wsServer.on('connection', (socket, req) => {
                     game.setMyName(player, data);
 
                 } else if (name == 'ban') {
-                    game.ban(data);
+                    game.banById(data);
                 } else if (name == 'skipTurn') {
                     game.nextPlayer(player);
                 } else if (name == 'buyCurrent') {
@@ -34,14 +34,17 @@ wsServer.on('connection', (socket, req) => {
                 } else if (name == 'buildHouse') {
                     game.buildHouse(player, data);
                 } else if (name == 'joinGame') {
-                    if(game){
+                    if (game) {
                         game.ban(player)
                     }
                     game = Game.get(data);
-                    player = game.addPlayer(socket, username);
+                    if (game.status == 'waiting') {
+                        player = game.addPlayer(socket, username);
+                    }
                     sendGamesListToEverybody()
+
                 } else if (name == 'createGame') {
-                    if(game){
+                    if (game) {
                         game.ban(player)
                     }
                     game = Game.newGame()
@@ -55,7 +58,7 @@ wsServer.on('connection', (socket, req) => {
 
         socket.on('close', message => {
             console.log('disconect')
-            if(game){
+            if (game) {
                 game.ban(player);
             }
         })
@@ -68,7 +71,11 @@ function getAllGamesMessage() {
     return JSON.stringify({
         name: 'allGames',
         data: [...Game.allGames].map(([n, g]) => {
-            return {id: g.id, players: g.players.map(p => ({name: p.name, id: p.id}))};
+            return {
+                id: g.id,
+                status: g.status,
+                players: g.players.map(p => ({name: p.name, id: p.id}))
+            };
         })
     });
 }
@@ -79,7 +86,9 @@ export function sendGamesListToEverybody() {
     wsServer.clients.forEach(x => x.send(message));
 
 }
-function pingAll(){
+
+function pingAll() {
     wsServer.clients.forEach(x => x.ping());
 }
+
 setInterval(pingAll, 10000);
