@@ -34,10 +34,16 @@ wsServer.on('connection', (socket, req) => {
                 } else if (name == 'buildHouse') {
                     game.buildHouse(player, data);
                 } else if (name == 'joinGame') {
+                    if(game){
+                        game.ban(player)
+                    }
                     game = Game.get(data);
                     player = game.addPlayer(socket, username);
                     sendGamesListToEverybody()
                 } else if (name == 'createGame') {
+                    if(game){
+                        game.ban(player)
+                    }
                     game = Game.newGame()
                     player = game.addPlayer(socket, username);
                     sendGamesListToEverybody()
