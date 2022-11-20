@@ -10,7 +10,7 @@
         </div>
       </div>
 
-      <button :disabled="!canStartGame" v-if="isAdmin">
+      <button :disabled="!canStartGame" v-if="isAdmin" @click="startGame">
         Start
       </button>
     </div>
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { useWebsocketStore } from "@/stores/websocketStore";
+import {useWebsocketStore} from "@/stores/websocketStore";
 
 export default {
   name: "WaitingRoom",
@@ -38,6 +38,11 @@ export default {
       return this.websocketStore.allData.game.players[0].id == this.websocketStore.allData.currentPlayer.id;
     },
   },
+  methods: {
+    startGame() {
+      this.websocketStore.startGame();
+    }
+  }
 }
 </script>
 
@@ -54,7 +59,6 @@ export default {
   left: 0;
   top: 0;
   z-index: 2;
-
 
   &:before {
     content: "";

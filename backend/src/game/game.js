@@ -81,7 +81,8 @@ export class Game {
             players: this.players.map(x => x.allDataToJson()),
             board: this.board.map(x => x.allDataToJson()),
             status: this.status,
-            currentTurn: this.players[this.currentTurnIndex].id
+            currentTurn: this.players[this.currentTurnIndex].id,
+            currentTurnRolled: this.currentTurnRolled
         }
     }
 
@@ -109,6 +110,7 @@ export class Game {
     rollDice(player) {
         if (this.players[this.currentTurnIndex] != player) return;
         if (this.status != 'playing') return;
+        if (this.currentTurnRolled) return;
 
         let random = [randomDice(), randomDice()]
         let randomSum = random[0] + random[1];
@@ -166,7 +168,7 @@ export class Game {
         do {
             this.currentTurnIndex = (this.currentTurnIndex + 1) % this.players.length;
             this.currentTurnRolled = false;
-        } while (this.players[this.currentTurnIndex].money >= 0);
+        } while (this.players[this.currentTurnIndex].money < 0);
         this.updateAll();
     }
 
@@ -175,7 +177,7 @@ export class Game {
         if (this.status != 'playing') return;
         if (!this.currentTurnRolled) return;
         let field = this.board[player.position]
-        if (field instanceof Village && field.owner == null) {
+        if ((field instanceof Village || field instanceof Windmill) && field.owner == null) {
             if (player.money >= field.price) {
                 player.money -= field.price;
                 field.owner = player;
@@ -191,6 +193,8 @@ export class Game {
                     field.owner = next;
                 }
             }
+
+            this.players.forEach(x => x.send('bancrupt', {playerId: player.id}))
         }
         if (this.players.filter(x => x.money >= 0).length == 1) {
             this.status = 'finished'

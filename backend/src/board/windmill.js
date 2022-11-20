@@ -16,6 +16,7 @@ export class Windmill extends Field {
     }
     steppedIn(player, game) {
         if (this.owner == null) {
+            game.players.forEach(x => x.send('buyDecisionPending', {playerId: player.id, price: this.price}))
             return true;//wait for decision
         } else if (this.owner == player) {
             //do nothing

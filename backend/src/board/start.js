@@ -9,4 +9,7 @@ export class Start extends Field{
     getTypeName() {
         return 'start'
     }
+
+    steppedIn(player, game) {
+    }
 }

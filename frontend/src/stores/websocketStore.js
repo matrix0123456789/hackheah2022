@@ -76,6 +76,14 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
         };
     }
 
+    function startGame(){
+        if (!ws) {
+            return;
+        }
+
+        ws.send(JSON.stringify({name: "start"}));
+    }
+
     function createGame() {
         if (!ws) {
             return;
@@ -134,6 +142,7 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
         connectionError,
         createGame,
         allData,
-        joinGame
+        joinGame,
+        startGame
     }
 })
