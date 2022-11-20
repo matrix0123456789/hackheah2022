@@ -95,23 +95,31 @@ export default {
   }
 
   &.counter-red {
-    background: #ef0163;
+    background: 50% 50% no-repeat;
     --fieldColorMargin:calc(var(--fieldWidth) * -0.3);
+    background-image: url(../assets/red.png);
+    background-size: contain;
   }
 
   &.counter-green {
-    background: #24af04;
+    background: 50% 50% no-repeat;
     --fieldColorMargin:calc(var(--fieldWidth) * -0.1);
+    background-image: url(../assets/green.png);
+    background-size: contain;
   }
 
   &.counter-blue {
-    background: #01b7ef;
+    background: 50% 50% no-repeat;
     --fieldColorMargin:calc(var(--fieldWidth) * 0.1);
+    background-image: url(../assets/blue.png);
+    background-size: contain;
   }
 
   &.counter-yellow {
-    background: #c97002;
+    background: 50% 50% no-repeat;
     --fieldColorMargin:calc(var(--fieldWidth) * 0.3);
+    background-image: url(../assets/yellow.png);
+    background-size: contain;
   }
 }
 </style>
