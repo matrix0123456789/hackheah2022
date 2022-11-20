@@ -60,7 +60,6 @@ $rowElements: 7;
   width: var(--fieldWidth);
   height: var(--fieldHeight);
   box-sizing: border-box;
-
   border: 1px solid $shadowColor;
   background: $tileColor;
   box-shadow: 1px 1px 0px $shadowColor,

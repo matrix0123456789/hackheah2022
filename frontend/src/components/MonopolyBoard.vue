@@ -7,7 +7,7 @@
     <div class="monopoly-board">
       <div class="row">
         <div class="corner"></div>
-        <div class="elements">
+        <div class="elements last-in-row-no-shadow">
           <RowElement v-for="element in rowElementsTop" :element="element"></RowElement>
         </div>
         <div class="corner"></div>
@@ -24,11 +24,11 @@
       </div>
 
       <div class="row">
-        <div class="corner"></div>
+        <div class="corner shorter"></div>
         <div class="elements">
           <RowElement v-for="element in rowElementsBottom" :element="element"></RowElement>
         </div>
-        <div class="corner" style="z-index: 2;"></div>
+        <div class="corner shorter" style="z-index: 2;"></div>
       </div>
 
     </div>
@@ -37,16 +37,16 @@
 
 <script>
 import RowElement from './RowElement.vue';
-import {BoardsFields} from "../data";
+import { BoardsFields } from "../data";
 
 export default {
   data() {
     return {
       rowElements: 9,
-      rowElementsTop:BoardsFields.slice(21,30),
-      rowElementsBottom:BoardsFields.slice(1,10).reverse(),
-      rowElementsLeft:BoardsFields.slice(11,20).reverse(),
-      rowElementsRight:BoardsFields.slice(31,40),
+      rowElementsTop: BoardsFields.slice(21, 30),
+      rowElementsBottom: BoardsFields.slice(1, 10).reverse(),
+      rowElementsLeft: BoardsFields.slice(11, 20).reverse(),
+      rowElementsRight: BoardsFields.slice(31, 40),
       is3D: false,
 
     }
@@ -69,10 +69,11 @@ export default {
   $cornerColor: #abcacd;
   $rowElements: 9;
   --paddings: 20px;
---mainSize:min(100vw - var(--paddingsX2), 100vh - var(--paddingsX2));
+  --mainSize: min(100vw - var(--paddingsX2), 100vh - var(--paddingsX2));
   transition: 1s ease all;
   --fieldHeight:calc(var(--mainSize)/(#{$rowElements} + 2) * 1.5);
-  --fieldWidth:calc((var(--mainSize) - var(--fieldHeight) * 2 )/(#{$rowElements}) );
+  --fieldWidth:calc((var(--mainSize) - var(--fieldHeight) * 2)/(#{$rowElements}));
+
   @media (max-width: 600px) {
     --paddings: 10px;
   }
@@ -112,7 +113,7 @@ export default {
   &.view-3d {
     perspective: 300vh;
     perspective-origin: 50% 50%;
-    --mainSize:min(70vw - var(--paddingsX2), 100vh - var(--paddingsX2));
+    --mainSize: min(70vw - var(--paddingsX2), 100vh - var(--paddingsX2));
 
     .monopoly-board {
       transform: rotateX(55deg) rotateZ(45deg);
@@ -126,8 +127,8 @@ export default {
     align-items: center;
     width: fit-content;
     transition: all 0.3s;
-    max-height: calc(var(--mainSize) );
-    max-width: calc(var(--mainSize) );
+    max-height: calc(var(--mainSize));
+    max-width: calc(var(--mainSize));
     aspect-ratio: 1/1;
 
     .row {
@@ -136,20 +137,39 @@ export default {
     }
 
     .corner {
+      &.shorter {
+        box-shadow: 1px 1px 0px $shadowColor,
+          2px 2px 0px $shadowColor,
+          3px 3px 0px $shadowColor,
+          6px 4.5px 0 $shadowColor,
+      }
+
       width: var(--fieldHeight);
       height: var(--fieldHeight);
       background: $cornerColor;
       border: 1px solid $shadowColor;
       box-shadow: 1px 1px 0px $shadowColor,
-        2px 2px 0px $shadowColor,
-        3px 3px 0px $shadowColor,
-        4px 4px 0px $shadowColor,
-        5px 5px 0px $shadowColor,
-        6px 6px 0px $shadowColor,
+          2px 2px 0px $shadowColor,
+          3px 3px 0px $shadowColor,
+          4px 4px 0px $shadowColor,
+          5px 5px 0px $shadowColor,
+          6px 6px 0px $shadowColor;
     }
 
     .elements {
       display: flex;
+
+      &.last-in-row-no-shadow {
+        .row-element:last-child {
+          box-shadow: 0px 1px 0px $shadowColor,
+            0px 2px 0px $shadowColor,
+            0px 3px 0px $shadowColor,
+            0px 4px 0px $shadowColor,
+            0px 5px 0px $shadowColor,
+            0px 6px 0px $shadowColor,
+        }
+
+      }
 
       &.column {
         flex-direction: column;
@@ -163,7 +183,6 @@ export default {
               5px 0px 0px $shadowColor,
               6px 0px 0px $shadowColor,
           }
-
         }
       }
     }
