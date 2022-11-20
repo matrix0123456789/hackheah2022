@@ -13,8 +13,10 @@ import {
 export const useWebsocketStore = defineStore('websocketStore', () => {
     const _games = reactive([]);
     const _allData = reactive({});
-    const websocketAddress = "wss://hackyeah2022.server.green-code.studio/backend";
-    const websocketAddressAPI = "https://hackyeah2022.server.green-code.studio/backend/";
+    // const websocketAddress = "wss://hackyeah2022.server.green-code.studio/backend";
+    // const websocketAddressAPI = "https://hackyeah2022.server.green-code.studio/backend/";
+    const websocketAddress = "ws://localhost:3000";
+    const websocketAddressAPI = "http://localhost:3000";
     const _userName = ref("");
     const _connecting = ref(false);
     const _connected = ref(false);
