@@ -10,7 +10,7 @@ export const useNavigatorStore = defineStore('navigator', () => {
 
     let _currentPage = ref(_pages.home);
 
-    const currentPage = computed(() => _currentPage.value )
+    const currentPage = computed(() => _currentPage.value)
     const pages = computed(() => _pages )
 
     function goToPage(page) {

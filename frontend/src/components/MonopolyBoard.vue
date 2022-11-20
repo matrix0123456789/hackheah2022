@@ -59,8 +59,18 @@
 <script>
 import RowElement from './RowElement.vue';
 import { BoardsFields } from "../data";
+import {useWebsocketStore} from '@/stores/websocketStore'
+
 
 export default {
+  components: {
+    RowElement
+  },
+  props: {
+    column: {
+      type: Boolean
+    }
+  },
   data() {
     return {
       rowElements: 9,
@@ -69,16 +79,12 @@ export default {
       rowElementsLeft: BoardsFields.slice(11, 20).reverse(),
       rowElementsRight: BoardsFields.slice(31, 40),
       is3D: false,
+      websocketStore: useWebsocketStore(),
+    }
+  },
 
-    }
-  },
-  components: {
-    RowElement
-  },
-  props: {
-    column: {
-      type: Boolean
-    }
+  mounted() {
+    console.log("juuuuuu", this.websocketStore.allData);
   }
 }
 </script>

@@ -14,7 +14,7 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
     const navigator = useNavigatorStore();
 
     const games = computed(() => _games)
-    const allData = computed(() => _allData)
+    const allData = computed(() => _allData.value)
     const userName = computed(() => _userName.value)
     const connecting = computed(() => _connecting.value)
     const connected = computed(() => _connected.value)
@@ -50,10 +50,6 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
             _connectionError.value = false;
             setUserName(username);
             navigator.goToPage(navigator.pages.gamesList);
-            // // subscribe to some channels
-            // ws.send(JSON.stringify({
-            //   //.... some message the I must send when I connect ....
-            // }));
         };
 
         ws.onmessage = (e) => {
@@ -63,16 +59,10 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
         };
 
         ws.onclose = (e) => {
-            // console.log('Socket is closed. Reconnect will be attempted in 3 second.', e.reason);
-
             _connected.value = false;
             _connecting.value = false;
             navigator.goToPage(navigator.pages.home);
             ws.close();
-
-            // setTimeout( () =>{
-            //   this.connect();
-            // }, 3000);
         };
 
         ws.onerror = (err) => {
@@ -93,12 +83,23 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
         ws.send(JSON.stringify({name: "createGame"}));
     }
 
+    function joinGame(id) {
+        if (!ws) {
+            return;
+        }
+
+        ws.send(JSON.stringify({name: "joinGame", data: id}));
+    }
+
     function loadGameView(newAlleData) {
-        // while (_games.length)
-        //     _games.pop();
+        _allData.value = newAlleData;
+        // _allData = reactive(newAlleData.data);
+         Object.assign(_allData, newAlleData.data);
         //
-        // for (let newGame of newGamesList) {
-        //     _games.push(newGame);
+        // for (let prop in newAlleData.data){
+        //     if(newAlleData.data.hasOwnProperty(prop)){
+        //         _allData[prop] = newAlleData[prop];
+        //     }
         // }
 
         if(newAlleData){
@@ -131,6 +132,7 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
         connected,
         connectionError,
         createGame,
-        allData
+        allData,
+        joinGame
     }
 })

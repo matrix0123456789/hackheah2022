@@ -4,7 +4,7 @@
       Utwórz gre
     </button>
     <div v-if="games.length">
-      <div class="gameInfo" v-for="game in games" >
+      <div class="gameInfo" v-for="game in games" @click="joinGame(game.id)">
         {{ getGameName(game) }}
       </div>
     </div>
@@ -38,6 +38,9 @@ export default {
       return game.id + "[" + game.players.map(function( player ) {
         return player.name;
       }).join(', ') + "]";
+    },
+    joinGame(id){
+      this.websocketStore.joinGame(id);
     }
   },
   mounted() {

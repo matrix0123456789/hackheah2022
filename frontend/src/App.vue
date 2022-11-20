@@ -16,7 +16,7 @@
 <script>
 import Connecting from "./components/Connecting.vue";
 import ConnectionError from "@/components/ConnectionError.vue";
-import {useWebsocketStore} from '@/stores/websocketStore'
+import { useWebsocketStore } from '@/stores/websocketStore'
 
 import AppContent from "@/components/AppContent.vue";
 import Login from "@/components/Login.vue";
