@@ -9,6 +9,7 @@ import {Chance} from "../core/chance.js";
 import {Tavern} from "../board/tavern.js";
 import {Tax} from "../board/tax.js";
 import {Resting} from "../board/resting.js";
+import {Church} from "../board/church.js";
 
 export class Game {
     static allGames = new Map();
