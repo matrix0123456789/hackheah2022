@@ -10,5 +10,6 @@ export class Tax extends Field{
     }
 
     steppedIn(player, game) {
+        player.money+=100
     }
 }

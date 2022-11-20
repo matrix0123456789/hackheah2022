@@ -1,7 +1,7 @@
 export class Player {
     name = '';
     position = 0;
-    money = 0;
+    money = 1500;
     color = '';
 
     constructor(id, socket, name) {

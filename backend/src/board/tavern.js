@@ -11,5 +11,6 @@ export class Tavern extends Field{
     }
 
     steppedIn(player, game) {
+        game.players.forEach(x => x.send('additionalRollPending', {playerId: player.id, price: this.price}))
     }
 }

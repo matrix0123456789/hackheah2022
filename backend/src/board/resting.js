@@ -11,5 +11,6 @@ export class Resting extends Field{
     }
 
     steppedIn(player, game) {
+        player.position=10
     }
 }
