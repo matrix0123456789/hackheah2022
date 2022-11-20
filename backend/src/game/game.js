@@ -175,7 +175,7 @@ export class Game {
         if (this.status != 'playing') return;
         if (!this.currentTurnRolled) return;
         let field = this.board[player.position]
-        if (field instanceof Village && field.owner == null) {
+        if ((field instanceof Village || field instanceof Windmill) && field.owner == null) {
             if (player.money >= field.price) {
                 player.money -= field.price;
                 field.owner = player;

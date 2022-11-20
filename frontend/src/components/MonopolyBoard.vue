@@ -34,6 +34,8 @@
         <player-counter v-for="player in websocketStore.allData.game.players" :position="player.position"
                         :color="player.color"/>
       </template>
+      <player-counter :position="dbg"
+                      color="blue"/>
     </div>
     <div class="players" v-if="websocketStore.allData&&websocketStore.allData.game">
 
@@ -65,6 +67,7 @@ export default {
     return {
       is3D: false,
       websocketStore: useWebsocketStore(),
+      dbg:0
     }
   },
   computed: {
