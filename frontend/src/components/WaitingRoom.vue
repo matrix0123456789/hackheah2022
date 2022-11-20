@@ -6,7 +6,7 @@
   <div class="player-info" v-for="player in players">
   {{player}}
   </div>
-  <button :disabled="!canStartGame" >
+  <button :disabled="!canStartGame" v-if="isAdmin">
     Start
   </button>
 </div>
@@ -28,7 +28,10 @@ export default {
     },
     canStartGame (){
       return this.websocketStore.allData.game.players.length > 1;
-    }
+    },
+    isAdmin(){
+      return this.websocketStore.allData.game.players[0].id == this.websocketStore.allData.currentPlayer.id;
+    },
   },
 }
 </script>
