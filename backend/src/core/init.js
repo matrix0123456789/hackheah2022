@@ -17,20 +17,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get('/game/', async (req, res) => {
 
-    res.json([...Game.allGames].map(([n, g]) => {
-        return {name: g.name, players: g.players?.length};
-    }))
-
-
-})
-app.get('/game/create', async (req, res) => {
-
-    let game = Game.newGame()
-    res.json({id: game.id});
-    sendGamesListToEverybody()
-})
 
 
 const server = app.listen(port, () => {
