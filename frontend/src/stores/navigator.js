@@ -8,7 +8,7 @@ export const useNavigatorStore = defineStore('navigator', () => {
         game: "game"
     }
 
-    let _currentPage = _pages.gamesList;
+    let _currentPage = _pages.home;
 
     const currentPage = computed(() => _currentPage )
     const pages = computed(() => _pages )
