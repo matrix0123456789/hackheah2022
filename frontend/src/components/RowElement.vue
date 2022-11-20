@@ -11,6 +11,18 @@
       </template>
       <template v-else-if="element.type=='windmill'">
         <div class="name">Młyn</div>
+        <div class="price">{{ element.price }}</div>
+      </template>
+
+      <template v-else-if="element.type=='chance'">
+        <div class="name">Szansa</div>
+      </template>
+
+      <template v-else-if="element.type=='tax'">
+        <div class="name">Zbierasz daninę</div>
+      </template>
+      <template v-else-if="element.type=='tavern'">
+        <div class="name">Karczma</div>
       </template>
       <template v-else>{{ element.type }}</template>
 
@@ -120,35 +132,35 @@ $rowElements: 7;
 
       .colorBlock {
         background: red;
-        box-shadow: 0 0 0 calc(var(--fieldHeight) * 0.04) black inset;
+        box-shadow: 0 0 5px rgba(0,0,0,0.5) inset, 0 0 10px rgba(255,255,255,0.5) inset;
         display: flex;
         align-items: center;
         justify-content: center;
         transform-style: preserve-3d;
 
         &.poland{
-          background: #9d4d3cff;
+          background: #9b8695;
         }
         &.ukraine{
-          background: #3c9d3cff;
+          background: #bec196;
         }
         &.czekia{
-          background: #3c839dff;
+          background: #bcb2c1;
         }
         &.austria{
-          background: #3c9d7bff;
+          background: #b4ce63;
         }
         &.hungary{
-          background: #9d903cff;
+          background: #d2cdb9;
         }
         &.serbia{
-          background: #6e3c9dff;
+          background: #b2c0c1;
         }
         &.romania{
-          background: #423c9dff;
+          background: #bcc1b2;
         }
         &.slovakia{
-          background: #973c9dff;
+          background: #9593a8;
         }
         .house{
           width: calc(var(--fieldHeight) * 0.4);
@@ -162,13 +174,14 @@ $rowElements: 7;
     }
     &.windmill{
       &::before{
-        transform: var(--rotate);
+        transform: var(--rotate) ;
         transform-origin: bottom;
         background: url(../assets/mlyn.png) 50% 50% no-repeat;
         background-size: 100%;
         content:'';
         display: block;
         height: calc(var(--fieldHeight) * 0.8);
+        filter: drop-shadow(0 0 5px black);
       }
     }
     .price{
