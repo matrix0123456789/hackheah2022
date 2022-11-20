@@ -1,5 +1,5 @@
-import {Field} from "../board/field.js";
-import {Village} from "../board/village.js";
+import {Field} from "./field.js";
+import {Village} from "./village.js";
 
 export class Chance extends Field {
     available = [{
@@ -77,13 +77,13 @@ export class Chance extends Field {
         execute(player, game) {
             for (let i = 0; i < 40; i++) {
                 let field = game.board[(player.position + i) % game.board.length];
-                if (field instanceof Village && field.owner == player && field.houseCount >0) {
+                if (field instanceof Village && field.owner == player && field.houseCount > 0) {
                     field.houseCount--;
                     return
                 }
             }
         }
-    },{
+    }, {
         text: '',
         execute(player, game) {
 
@@ -102,5 +102,9 @@ export class Chance extends Field {
         let card = this.available.shift();
         this.available.push(card);
         card.execute(player, game)
+        for (const player of this.players) {
+            player.send('chanceOpened', {player: player.id, text: card.text})
+        }
+        game.updateAll()
     }
 }
