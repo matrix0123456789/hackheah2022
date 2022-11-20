@@ -6,11 +6,11 @@
 
     <div class="monopoly-board">
       <div class="row">
-        <div class="corner"></div>
+        <div class="corner">Bezpłatny parking?</div>
         <div class="elements last-in-row-no-shadow">
           <RowElement v-for="element in rowElementsTop" :element="element"></RowElement>
         </div>
-        <div class="corner"></div>
+        <div class="corner">Idziesz na odpoczynek</div>
       </div>
 
       <div class="row">
@@ -24,11 +24,33 @@
       </div>
 
       <div class="row">
-        <div class="corner shorter"></div>
+        <div class="corner shorter">Miejsce odpoczynku</div>
         <div class="elements">
           <RowElement v-for="element in rowElementsBottom" :element="element"></RowElement>
         </div>
         <div class="corner shorter" style="z-index: 2;"></div>
+        <div class="corner" style="z-index: 2;">Start</div>
+      </div>
+      <div class="player-counter bottom" style="--position:5"></div>
+      <div class="player-counter left" style="--position:12"></div>
+      <div class="player-counter top" style="--position:20"></div>
+    </div>
+    <div class="players">
+      <div class="player player-red">
+        <div class="name">Lorem ipsum</div>
+        <div class="money">100</div>
+      </div>
+      <div class="player player-green">
+        <div class="name">Lorem ipsum</div>
+        <div class="money">100</div>
+      </div>
+      <div class="player player-blue">
+        <div class="name">Lorem ipsum</div>
+        <div class="money">100</div>
+      </div>
+      <div class="player player-yellow">
+        <div class="name">Lorem ipsum</div>
+        <div class="money">100</div>
       </div>
     </div>
   </div>
@@ -93,7 +115,7 @@ export default {
   align-items: center;
   perspective: 300vh;
   perspective-origin: 50% 50%;
-  --rotate:rotateX(0);
+  --rotate: rotateX(0);
 
   .switch-3d {
     display: flex;
@@ -112,7 +134,7 @@ export default {
 
   &.view-3d {
     --mainSize: min(70vw - var(--paddingsX2), 100vh - var(--paddingsX2));
-    --rotate:rotateX(-90deg);
+    --rotate: rotateX(-90deg);
 
     .monopoly-board {
       transform: rotateX(55deg) rotateZ(45deg);
@@ -181,7 +203,67 @@ export default {
     .center-board {
       flex-grow: 1;
       background: url(../assets/map.svg) 50% 50% no-repeat;
-      background-size:cover;
+      background-size: cover;
+    }
+
+    .player-counter {
+      width: 20px;
+      height: 60px;
+      background: red;
+      position: absolute;
+
+      &.bottom {
+        bottom: 0;
+        right: calc(var(--position) / 10 * var(--mainSize));
+      }
+
+      &.left {
+        left: 0;
+        bottom: calc((var(--position) - 10) / 10 * var(--mainSize));
+      }
+
+      &.top {
+        top: 0;
+        left: calc((var(--position) - 20) / 10 * var(--mainSize));
+      }
+
+      &.right {
+        right: 0;
+        top: calc((var(--position) - 30) / 10 * var(--mainSize));
+      }
+    }
+  }
+
+  .players {
+    font-size: min(4vw, 4vh);
+    .player-red {
+      position: absolute;
+      left: 0;
+      top: 0;
+      color:#ef0163;
+    }
+
+    .player-green {
+      position: absolute;
+      right: 0;
+      top: 0;
+      text-align: right;
+      color: #24af04;
+    }
+
+    .player-blue {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      color: #01b7ef;
+    }
+
+    .player-yellow {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      text-align: right;
+      color: #c97002;
     }
   }
 }
