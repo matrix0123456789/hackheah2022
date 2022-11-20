@@ -3,9 +3,14 @@
     <div class="row-element-content" :class="element?.type">
       <template v-if="element==null"></template>
       <template v-else-if="element.type=='village'">
-        <div class="colorBlock"></div>
+        <div class="colorBlock">
+          <div class="house"></div>
+        </div>
         <div class="name">{{ element.name }}</div>
         <div class="price">{{ element.price }}</div>
+      </template>
+      <template v-else-if="element.type=='windmill'">
+        <div class="name">Młyn</div>
       </template>
       <template v-else>{{ element.type }}</template>
 
@@ -114,7 +119,21 @@ $rowElements: 7;
       .colorBlock {
         background: red;
         box-shadow: 0 0 0 calc(var(--fieldHeight) * 0.04) black inset;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .house{
+          width: calc(var(--fieldHeight) * 0.2);
+          height: calc(var(--fieldHeight) * 0.2);
+          background: url(../assets/dom.png) 50% 50% no-repeat;
+          background-size: 100%;
+        }
       }
+    }
+    &.windmill{
+      background: url(../assets/mlyn.png) 50% 50% no-repeat;
+      background-size: 100%;
     }
   }
 }

@@ -81,8 +81,8 @@ export class Game {
         }
     }
 
-    addPlayer(socket) {
-        let player = Player.createPlayer(socket)
+    addPlayer(socket, username) {
+        let player = Player.createPlayer(socket, username)
         this.players.push(player);
         this.updateAll();
         return player;

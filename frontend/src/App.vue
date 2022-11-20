@@ -44,8 +44,8 @@ export default {
           return;
       }
     },
-    connect() {
-      const ws = new WebSocket(this.websocketAddress);
+    connect(username='todo zmienić') {
+      const ws = new WebSocket(this.websocketAddress+'/'+encodeURIComponent(username));
 
       ws.onopen =  () => {
         console.log("open");
