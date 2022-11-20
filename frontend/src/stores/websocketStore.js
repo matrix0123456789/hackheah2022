@@ -13,6 +13,8 @@ import {
 export const useWebsocketStore = defineStore('websocketStore', () => {
     const _games = reactive([]);
     const _allData = reactive({});
+    // const websocketAddress = "wss://hackyeah2022.server.green-code.studio/backend";
+    // const websocketAddressAPI = "https://hackyeah2022.server.green-code.studio/backend/";
     const websocketAddress = "ws://localhost:3000";
     const websocketAddressAPI = "http://localhost:3000";
     const _userName = ref("");
@@ -131,6 +133,13 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
             name: "start"
         }));
     }
+    function buildHouse(id){
+        if (!ws) {
+            return;
+        }
+
+        ws.send(JSON.stringify({name: "buildHouse", data:id}));
+    }
 
     function createGame() {
         if (!ws) {
@@ -218,6 +227,7 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
         allData,
         joinGame,
         startGame,
+        buildHouse,
         rollDice,
         randomResults,
         toogleRandomResults,

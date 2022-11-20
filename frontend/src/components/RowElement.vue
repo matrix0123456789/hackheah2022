@@ -24,6 +24,9 @@
       <template v-else-if="element.type=='tavern'">
         <div class="name">Karczma</div>
       </template>
+      <template v-else-if="element.type=='church'">
+        <div class="name">Kościół</div>
+      </template>
       <template v-else>{{ element.type }}</template>
 
     </div>
@@ -121,7 +124,7 @@ $rowElements: 7;
     position: absolute;
     left: 0;
     top: 0;
-    font-size: calc(var(--fieldWidth) * 0.2);
+    font-size: calc(var(--fieldWidth) * 0.18);
     text-align: center;
     transform-style: preserve-3d;
 
@@ -131,55 +134,67 @@ $rowElements: 7;
 
       .colorBlock {
         background: red;
-        box-shadow: 0 0 5px rgba(0,0,0,0.5) inset, 0 0 10px rgba(255,255,255,0.5) inset;
-        display: flex;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5) inset, 0 0 10px rgba(255, 255, 255, 0.5) inset;
+        display: grid;
         align-items: center;
-        justify-content: center;
+        justify-items: center;
         transform-style: preserve-3d;
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
 
-        &.poland{
+        &.poland {
           background: #9b8695;
         }
-        &.ukraine{
+
+        &.ukraine {
           background: #bec196;
         }
-        &.czekia{
+
+        &.czekia {
           background: #bcb2c1;
         }
-        &.austria{
+
+        &.austria {
           background: #b4ce63;
         }
-        &.hungary{
+
+        &.hungary {
           background: #d2cdb9;
         }
-        &.serbia{
+
+        &.serbia {
           background: #b2c0c1;
         }
-        &.romania{
+
+        &.romania {
           background: #bcc1b2;
         }
-        &.slovakia{
+
+        &.slovakia {
           background: #9593a8;
         }
-        .house{
-          width: calc(var(--fieldHeight) * 0.4);
-          height: calc(var(--fieldHeight) * 0.4);
+
+        .house {
+          width: calc(var(--fieldHeight) * 0.2);
+          height: calc(var(--fieldHeight) * 0.2);
           background: url(../assets/dom.png) 50% 50% no-repeat;
-          background-size: 100%;
+          background-size: 150%;
           transform: var(--rotate);
           transform-origin: bottom;
         }
       }
     }
-    &.windmill{
+
+    &.windmill {
       display: grid;
       grid-template-rows: 1fr max-content;
-      &::before{
-        transform: var(--rotate) ;
+
+      &::before {
+        transform: var(--rotate);
         transform-origin: bottom;
         background: url(../assets/mlyn.png) 50% 50% no-repeat;
         background-size: 100%;
-        content:'';
+        content: '';
         display: block;
         height: calc(var(--fieldHeight) * 0.8);
         width: calc(var(--fieldWidth));
@@ -189,7 +204,52 @@ $rowElements: 7;
         left: 0;
       }
     }
-    .price{
+
+    &.chance, &.church, &.tax, &.tavern {
+      display: grid;
+      grid-template-rows: 1fr max-content;
+
+      &::before {
+        transform: var(--rotate);
+        transform-origin: bottom;
+        background: 50% 50% no-repeat;
+        background-size: contain;
+        content: '';
+        display: block;
+        height: calc(var(--fieldHeight) * 0.8);
+        width: calc(var(--fieldWidth));
+        filter: drop-shadow(0 0 5px black);
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+
+    &.chance {
+      &::before {
+        background-image: url(../assets/szansa.png);
+      }
+    }
+
+    &.church {
+      &::before {
+        background-image: url(../assets/kosciol.png);
+      }
+    }
+
+    &.tax {
+      &::before {
+        background-image: url(../assets/danina.png);
+      }
+    }
+
+    &.tavern {
+      &::before {
+        background-image: url(../assets/karczma.png);
+      }
+    }
+
+    .price {
       font-size: 2em;
     }
   }

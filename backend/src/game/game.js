@@ -33,7 +33,7 @@ export class Game {
         new Village('Vlkolinec', 'slovakia', 60, 50, [2, 10, 30, 90, 160, 250]),
         new Tax(),
         new Village('Havranok', 'slovakia', 60, 50, [4, 20, 60, 180, 320, 450]),
-        new Field(),
+        new Tavern(),
         new Windmill(),
         new Village('Cisnadioara', 'romania', 100, 50, [6, 30, 90, 270, 400, 550]),
         new Chance(),
@@ -51,7 +51,7 @@ export class Game {
         new Village('Kiskore', 'hungary', 200, 100, [16, 80, 220, 600, 800, 1000]),
         new Field(),
         new Village('Krumbach', 'austria', 220, 150, [18, 90, 250, 700, 875, 1050]),
-        new Chance(),
+        new Church(),
         new Village('Untereck', 'austria', 220, 150, [18, 90, 250, 700, 875, 1050]),
         new Village('Salmannsdorf', 'austria', 240, 150, [20, 100, 300, 750, 925, 1100]),
         new Windmill(),
@@ -79,9 +79,9 @@ export class Game {
         return {
             id: this.id,
             players: this.players.map(x => x.allDataToJson()),
-            board: this.board.map(x => x.allDataToJson()),
+            board: this.board.map((x, id) => ({id, ...x.allDataToJson()})),
             status: this.status,
-            currentTurn: this.players[this.currentTurnIndex].id,
+            currentTurn: this.players[this.currentTurnIndex]?.id,
             currentTurnRolled: this.currentTurnRolled
         }
     }
@@ -114,7 +114,7 @@ export class Game {
 
         let random = [randomDice(), randomDice()]
         for (const player of this.players) {
-            player.send('randomResult', {player: player.id, dices:random})
+            player.send('randomResult', {player: player.id, dices: random})
         }
         let randomSum = random[0] + random[1];
         this.currentTurnRolled = true;
