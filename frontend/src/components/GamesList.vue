@@ -4,8 +4,8 @@
       Utwórz gre
     </button>
     <div v-if="games.length">
-      <div class="gameInfo" v-for="game in games">
-        {{ game.id }} ddd
+      <div class="gameInfo" v-for="game in games" >
+        {{ getGameName(game) }}
       </div>
     </div>
     <div v-else>
@@ -16,6 +16,7 @@
 
 <script>
 import {useWebsocketStore} from '@/stores/websocketStore'
+import connecting from "@/components/Connecting.vue";
 
 export default {
   name: "GamesList",
@@ -31,9 +32,12 @@ export default {
   },
   methods: {
     createGame() {
-      const url = this.websocketStore.websocketAddressAPI + "/game/create";
-      fetch(url).then(res => res.json())
-          .then(res => console.log(res));
+      this.websocketStore.createGame();
+    },
+    getGameName(game){
+      return game.id + "[" + game.players.map(function( player ) {
+        return player.name;
+      }).join(', ') + "]";
     }
   },
   mounted() {

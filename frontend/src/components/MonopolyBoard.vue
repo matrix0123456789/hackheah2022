@@ -7,7 +7,7 @@
     <div class="monopoly-board">
       <div class="row">
         <div class="corner">Bezpłatny parking?</div>
-        <div class="elements">
+        <div class="elements last-in-row-no-shadow">
           <RowElement v-for="element in rowElementsTop" :element="element"></RowElement>
         </div>
         <div class="corner">Idziesz na odpoczynek</div>
@@ -24,10 +24,11 @@
       </div>
 
       <div class="row">
-        <div class="corner">Miejsce odpoczynku</div>
+        <div class="corner shorter">Miejsce odpoczynku</div>
         <div class="elements">
           <RowElement v-for="element in rowElementsBottom" :element="element"></RowElement>
         </div>
+        <div class="corner shorter" style="z-index: 2;"></div>
         <div class="corner" style="z-index: 2;">Start</div>
       </div>
       <div class="player-counter bottom" style="--position:5"></div>
@@ -57,7 +58,7 @@
 
 <script>
 import RowElement from './RowElement.vue';
-import {BoardsFields} from "../data";
+import { BoardsFields } from "../data";
 
 export default {
   data() {
@@ -159,6 +160,13 @@ export default {
     }
 
     .corner {
+      &.shorter {
+        box-shadow: 1px 1px 0px $shadowColor,
+          2px 2px 0px $shadowColor,
+          3px 3px 0px $shadowColor,
+          6px 4.5px 0 $shadowColor,
+      }
+
       width: var(--fieldHeight);
       height: var(--fieldHeight);
       background: $cornerColor;
@@ -188,7 +196,6 @@ export default {
             5px 0px 0px $shadowColor,
             6px 0px 0px $shadowColor,
           }
-
         }
       }
     }
