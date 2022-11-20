@@ -30,10 +30,6 @@
         </div>
         <div class="corner" style="z-index: 2;"></div>
       </div>
-      <div class="building windmill windmill1"/>
-      <div class="building windmill windmill2"/>
-      <div class="building windmill windmill3"/>
-      <div class="building windmill windmill4"/>
     </div>
   </div>
 </template>
@@ -97,6 +93,7 @@ export default {
   align-items: center;
   perspective: 300vh;
   perspective-origin: 50% 50%;
+  --rotate:rotateX(0);
 
   .switch-3d {
     display: flex;
@@ -115,6 +112,7 @@ export default {
 
   &.view-3d {
     --mainSize: min(70vw - var(--paddingsX2), 100vh - var(--paddingsX2));
+    --rotate:rotateX(-90deg);
 
     .monopoly-board {
       transform: rotateX(55deg) rotateZ(45deg);
@@ -176,50 +174,8 @@ export default {
 
     .center-board {
       flex-grow: 1;
-    }
-  }
-
-  .building {
-    position: absolute;
-    --rotate: rotateX(-10deg);
-    --rotate2: rotate(-90deg);
-
-    &.windmill {
-      background: url(../assets/mlyn.png) 50% 50% no-repeat;
-      background-size: 100%;
-      content: '';
-      display: block;
-      width: calc(var(--fieldWidth) * 0.8);
-      height: calc(var(--fieldHeight) * 0.8);
-      transform-origin: bottom;
-
-      &.windmill1 {
-        top: calc(var(--mainSize) * 0.02);
-        left: calc(var(--mainSize) * 0.5);
-        transform: var(--rotate);
-      }
-      &.windmill2 {
-        bottom: calc(var(--mainSize) * 0.02);
-        left: calc(var(--mainSize) * 0.5);
-        transform: var(--rotate);
-      }
-
-      &.windmill3 {
-        top: calc(var(--mainSize) * 0.5);
-        left: calc(var(--mainSize) * 0.02);
-        transform: var(--rotate2);
-      }
-      &.windmill4 {
-        top: calc(var(--mainSize) * 0.5);
-        right: calc(var(--mainSize) * 0.02);
-        transform: var(--rotate2);
-      }
-    }
-  }
-  &.view-3d {
-    .building {
-      --rotate: rotateX(-90deg);
-      --rotate2: rotateZ(-90deg) rotateX(-90deg);
+      background: url(../assets/map.svg) 50% 50% no-repeat;
+      background-size:cover;
     }
   }
 }

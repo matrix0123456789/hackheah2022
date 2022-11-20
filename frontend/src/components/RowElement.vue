@@ -108,7 +108,7 @@ $rowElements: 7;
 
     &.village {
       display: grid;
-      grid-template-rows: 20% 1fr max-content;
+      grid-template-rows: 1fr max-content max-content;
 
       .colorBlock {
         background: red;
@@ -116,6 +116,8 @@ $rowElements: 7;
         display: flex;
         align-items: center;
         justify-content: center;
+        transform-style: preserve-3d;
+
         &.poland{
           background: #9d4d3cff;
         }
@@ -141,15 +143,28 @@ $rowElements: 7;
           background: #973c9dff;
         }
         .house{
-          width: calc(var(--fieldHeight) * 0.2);
-          height: calc(var(--fieldHeight) * 0.2);
+          width: calc(var(--fieldHeight) * 0.4);
+          height: calc(var(--fieldHeight) * 0.4);
           background: url(../assets/dom.png) 50% 50% no-repeat;
           background-size: 100%;
+          transform: var(--rotate);
+          transform-origin: bottom;
         }
       }
     }
     &.windmill{
-
+      &::before{
+        transform: var(--rotate);
+        transform-origin: bottom;
+        background: url(../assets/mlyn.png) 50% 50% no-repeat;
+        background-size: 100%;
+        content:'';
+        display: block;
+        height: calc(var(--fieldHeight) * 0.8);
+      }
+    }
+    .price{
+      font-size: 2em;
     }
   }
 }
