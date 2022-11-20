@@ -30,7 +30,6 @@
         </div>
         <div class="corner shorter" style="z-index: 2;"></div>
       </div>
-
     </div>
   </div>
 </template>
@@ -71,15 +70,19 @@ export default {
   --paddings: 20px;
   --mainSize: min(100vw - var(--paddingsX2), 100vh - var(--paddingsX2));
   transition: 1s ease all;
+<<<<<<< HEAD
   --fieldHeight:calc(var(--mainSize)/(#{$rowElements} + 2) * 1.5);
   --fieldWidth:calc((var(--mainSize) - var(--fieldHeight) * 2)/(#{$rowElements}));
 
+=======
+  --fieldHeight: calc(var(--mainSize) / (#{$rowElements} + 2) * 1.5);
+  --fieldWidth: calc((var(--mainSize) - var(--fieldHeight) * 2) / (#{$rowElements}));
+>>>>>>> c894fccdc8c06b2bf885286312e5d621f8b22f7c
   @media (max-width: 600px) {
     --paddings: 10px;
   }
 
   --paddingsX2: calc(var(--paddings) * 2);
-
 
 
   $maxWidth: calc((100vw / ($rowElements + 2)) - var(--paddings));
@@ -94,6 +97,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  perspective: 300vh;
+  perspective-origin: 50% 50%;
+  --rotate:rotateX(0);
 
   .switch-3d {
     display: flex;
@@ -111,13 +117,17 @@ export default {
   }
 
   &.view-3d {
+<<<<<<< HEAD
     perspective: 300vh;
     perspective-origin: 50% 50%;
     --mainSize: min(70vw - var(--paddingsX2), 100vh - var(--paddingsX2));
+=======
+    --mainSize: min(70vw - var(--paddingsX2), 100vh - var(--paddingsX2));
+    --rotate:rotateX(-90deg);
+>>>>>>> c894fccdc8c06b2bf885286312e5d621f8b22f7c
 
     .monopoly-board {
       transform: rotateX(55deg) rotateZ(45deg);
-      transform-style: preserve-3d;
     }
   }
 
@@ -130,10 +140,13 @@ export default {
     max-height: calc(var(--mainSize));
     max-width: calc(var(--mainSize));
     aspect-ratio: 1/1;
+    transform-style: preserve-3d;
 
     .row {
       display: flex;
       width: 100%;
+
+      transform-style: preserve-3d;
     }
 
     .corner {
@@ -149,16 +162,25 @@ export default {
       background: $cornerColor;
       border: 1px solid $shadowColor;
       box-shadow: 1px 1px 0px $shadowColor,
+<<<<<<< HEAD
           2px 2px 0px $shadowColor,
           3px 3px 0px $shadowColor,
           4px 4px 0px $shadowColor,
           5px 5px 0px $shadowColor,
           6px 6px 0px $shadowColor;
+=======
+      2px 2px 0px $shadowColor,
+      3px 3px 0px $shadowColor,
+      4px 4px 0px $shadowColor,
+      5px 5px 0px $shadowColor,
+      6px 6px 0px $shadowColor,
+>>>>>>> c894fccdc8c06b2bf885286312e5d621f8b22f7c
     }
 
     .elements {
       display: flex;
 
+<<<<<<< HEAD
       &.last-in-row-no-shadow {
         .row-element:last-child {
           box-shadow: 0px 1px 0px $shadowColor,
@@ -170,6 +192,9 @@ export default {
         }
 
       }
+=======
+      transform-style: preserve-3d;
+>>>>>>> c894fccdc8c06b2bf885286312e5d621f8b22f7c
 
       &.column {
         flex-direction: column;
@@ -177,11 +202,11 @@ export default {
         &.last-no-shadow {
           .row-element:last-child {
             box-shadow: 1px 0px 0px $shadowColor,
-              2px 0px 0px $shadowColor,
-              3px 0px 0px $shadowColor,
-              4px 0px 0px $shadowColor,
-              5px 0px 0px $shadowColor,
-              6px 0px 0px $shadowColor,
+            2px 0px 0px $shadowColor,
+            3px 0px 0px $shadowColor,
+            4px 0px 0px $shadowColor,
+            5px 0px 0px $shadowColor,
+            6px 0px 0px $shadowColor,
           }
         }
       }
@@ -189,6 +214,8 @@ export default {
 
     .center-board {
       flex-grow: 1;
+      background: url(../assets/map.svg) 50% 50% no-repeat;
+      background-size:cover;
     }
   }
 }

@@ -3,7 +3,7 @@
     <div class="row-element-content" :class="element?.type">
       <template v-if="element==null"></template>
       <template v-else-if="element.type=='village'">
-        <div class="colorBlock">
+        <div class="colorBlock" :class="element.country">
           <div class="house"></div>
         </div>
         <div class="name">{{ element.name }}</div>
@@ -48,6 +48,7 @@ $rowElements: 7;
 
 .row-element {
   --paddings: 20px;
+  transform-style: preserve-3d;
 
 
   @media (max-width: 600px) {
@@ -110,10 +111,11 @@ $rowElements: 7;
     top: 0;
     font-size: calc(var(--fieldWidth) * 0.2);
     text-align: center;
+    transform-style: preserve-3d;
 
     &.village {
       display: grid;
-      grid-template-rows: 20% 1fr max-content;
+      grid-template-rows: 1fr max-content max-content;
 
       .colorBlock {
         background: red;
@@ -121,18 +123,55 @@ $rowElements: 7;
         display: flex;
         align-items: center;
         justify-content: center;
+        transform-style: preserve-3d;
 
+        &.poland{
+          background: #9d4d3cff;
+        }
+        &.ukraine{
+          background: #3c9d3cff;
+        }
+        &.czekia{
+          background: #3c839dff;
+        }
+        &.austria{
+          background: #3c9d7bff;
+        }
+        &.hungary{
+          background: #9d903cff;
+        }
+        &.serbia{
+          background: #6e3c9dff;
+        }
+        &.romania{
+          background: #423c9dff;
+        }
+        &.slovakia{
+          background: #973c9dff;
+        }
         .house{
-          width: calc(var(--fieldHeight) * 0.2);
-          height: calc(var(--fieldHeight) * 0.2);
+          width: calc(var(--fieldHeight) * 0.4);
+          height: calc(var(--fieldHeight) * 0.4);
           background: url(../assets/dom.png) 50% 50% no-repeat;
           background-size: 100%;
+          transform: var(--rotate);
+          transform-origin: bottom;
         }
       }
     }
     &.windmill{
-      background: url(../assets/mlyn.png) 50% 50% no-repeat;
-      background-size: 100%;
+      &::before{
+        transform: var(--rotate);
+        transform-origin: bottom;
+        background: url(../assets/mlyn.png) 50% 50% no-repeat;
+        background-size: 100%;
+        content:'';
+        display: block;
+        height: calc(var(--fieldHeight) * 0.8);
+      }
+    }
+    .price{
+      font-size: 2em;
     }
   }
 }
