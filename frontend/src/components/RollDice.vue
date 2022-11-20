@@ -96,7 +96,7 @@ export default {
   },
   computed: {
     isRolling() {
-      return this.websocketStore?.allData.currentPlayer.id == this.websocketStore?.allData.game.currentTurn;
+      return this.websocketStore?.allData.currentPlayer.id == this.websocketStore?.allData.game.currentTurn && !this.websocketStore.buyDecisionPending && ! this.websocketStore.chanceDecisionPending;
     },
     toggleRandoms() {
       return this.websocketStore.toogleRandomResults;

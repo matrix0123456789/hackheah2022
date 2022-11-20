@@ -1,5 +1,6 @@
 <template>
   <div class="monopoly-board-wrapper" :class="{ 'view-3d': is3D }">
+    <BuyInfo></BuyInfo>
     <button class="switch-3d" @click="is3D = !is3D">
       {{ is3D ? '2D' : '3D' }}
     </button>
@@ -54,11 +55,15 @@ import { BoardsFields } from "../data";
 import { useWebsocketStore } from '@/stores/websocketStore'
 import PlayerCounter from "./PlayerCounter.vue";
 import RollDice from "./RollDice.vue";
+import BuyInfo from './BuyInfo.vue';
 
 export default {
   components: {
-    RowElement, PlayerCounter, RollDice
-  },
+    RowElement,
+    PlayerCounter,
+    RollDice,
+    BuyInfo
+},
   props: {
     column: {
       type: Boolean

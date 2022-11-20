@@ -22,6 +22,8 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
     const navigator = useNavigatorStore();
     const _randomResults = reactive({});
     const _toogleRandomResults = ref(true);
+    const _buyDecisionPending = reactive({});
+    const _chanceDecisionPending = reactive({});
 
     const games = computed(() => _games)
     const allData = computed(() => _allData.value)
@@ -31,6 +33,8 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
     const connectionError = computed(() => _connectionError.value)
     const randomResults = computed(() => _randomResults.value)
     const toogleRandomResults = computed(() => _toogleRandomResults.value)
+    const buyDecisionPending = computed(() => _buyDecisionPending.value)
+    const chanceDecisionPending = computed(() => _chanceDecisionPending.value)
 
     let ws = null;
 
@@ -47,7 +51,19 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
                 loadGameView(message.data);
                 return;
             case "randomResult":
+                _buyDecisionPending.value = null;
+                _chanceDecisionPending.value = null;
                 manageRandomResults(message.data);
+                return;
+            case "buyDecisionPending":
+                console.log("buy", message.data)
+                _buyDecisionPending.value = message.data;
+                _chanceDecisionPending.value = null;
+                return;
+            case "chanceDecisionPending":
+                console.log("buy", message.data)
+                _chanceDecisionPending.value = message.data;
+                _buyDecisionPending.value = null;
                 return;
             default:
                 return;
@@ -61,7 +77,7 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
 
         ws.send(JSON.stringify({
             name: "rollDice"
-        })); 
+        }));
     }
 
     function manageRandomResults(res) {
@@ -137,6 +153,27 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
         }));
     }
 
+    function buy() {
+        if (!ws) {
+            return;
+        }
+
+        ws.send(JSON.stringify({
+            name: "buyCurrent"
+        }));
+    }
+
+    function chance() {
+        if (!ws) {
+            return;
+        }
+
+
+        ws.send(JSON.stringify({
+            name: "chanceOpened"
+        }));
+    }
+
     function loadGameView(newAlleData) {
         _allData.value = newAlleData;
         // _allData = reactive(newAlleData.data);
@@ -183,6 +220,10 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
         startGame,
         rollDice,
         randomResults,
-        toogleRandomResults
+        toogleRandomResults,
+        buyDecisionPending,
+        buy,
+        chance,
+        chanceDecisionPending
     }
 })
