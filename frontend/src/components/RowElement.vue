@@ -1,5 +1,5 @@
 <template>
-  <div class="row-element" :class="{ column: column }">
+  <div class="row-element" :class="[{ column: column }, { down: down }]">
     <div class="row-element-content" :class="element?.type">
       <template v-if="element==null"></template>
       <template v-else-if="element.type=='village'">
@@ -27,6 +27,9 @@ export default {
   },
   props: {
     column: {
+      type: Boolean
+    },
+    down: {
       type: Boolean
     },
     element: {}
@@ -67,6 +70,11 @@ $rowElements: 7;
   5px 5px 0px $shadowColor,
   6px 6px 0px $shadowColor;
   position: relative;
+  transition: 0.1s;
+
+  &.down {
+    transform: translate(7px, 7px);
+  }
 
   &.column {
     width: var(--fieldHeight);
