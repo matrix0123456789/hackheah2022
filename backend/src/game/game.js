@@ -79,7 +79,8 @@ export class Game {
             id: this.id,
             players: this.players.map(x => x.allDataToJson()),
             board: this.board.map(x => x.allDataToJson()),
-            currentTurnIndex: this.currentTurnIndex
+            status:this.status,
+            currentTurn: this.players[this.currentTurnIndex].id
         }
     }
 
