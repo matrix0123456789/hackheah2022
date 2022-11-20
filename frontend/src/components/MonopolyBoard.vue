@@ -1,10 +1,6 @@
 <template>
-<<<<<<< HEAD
-  <div class="monopoly-board-wrapper" :class="{ 'view-3d': is3D }">
-    <BuyInfo></BuyInfo>
-=======
   <div class="monopoly-board-wrapper" :class="{ 'view-3d': is3D }" @click="selectedField=null">
->>>>>>> 25dd04d2514524eaa9ba6471f5a4fa495d800718
+    <BuyInfo></BuyInfo>
     <button class="switch-3d" @click="is3D = !is3D">
       {{ is3D ? '2D' : '3D' }}
     </button>
@@ -68,17 +64,13 @@ import BuyInfo from './BuyInfo.vue';
 
 export default {
   components: {
-<<<<<<< HEAD
     RowElement,
     PlayerCounter,
     RollDice,
-    BuyInfo
-},
-=======
+    BuyInfo,
     FieldTooltip,
     RowElement, PlayerCounter, RollDice
   },
->>>>>>> 25dd04d2514524eaa9ba6471f5a4fa495d800718
   props: {
     column: {
       type: Boolean
