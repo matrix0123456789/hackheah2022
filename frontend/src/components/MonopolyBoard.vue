@@ -30,7 +30,6 @@
         </div>
         <div class="corner" style="z-index: 2;"></div>
       </div>
-
     </div>
   </div>
 </template>
@@ -43,10 +42,10 @@ export default {
   data() {
     return {
       rowElements: 9,
-      rowElementsTop:BoardsFields.slice(21,30),
-      rowElementsBottom:BoardsFields.slice(1,10).reverse(),
-      rowElementsLeft:BoardsFields.slice(11,20).reverse(),
-      rowElementsRight:BoardsFields.slice(31,40),
+      rowElementsTop: BoardsFields.slice(21, 30),
+      rowElementsBottom: BoardsFields.slice(1, 10).reverse(),
+      rowElementsLeft: BoardsFields.slice(11, 20).reverse(),
+      rowElementsRight: BoardsFields.slice(31, 40),
       is3D: false,
 
     }
@@ -69,16 +68,15 @@ export default {
   $cornerColor: #abcacd;
   $rowElements: 9;
   --paddings: 20px;
---mainSize:min(100vw - var(--paddingsX2), 100vh - var(--paddingsX2));
+  --mainSize: min(100vw - var(--paddingsX2), 100vh - var(--paddingsX2));
   transition: 1s ease all;
-  --fieldHeight:calc(var(--mainSize)/(#{$rowElements} + 2) * 1.5);
-  --fieldWidth:calc((var(--mainSize) - var(--fieldHeight) * 2 )/(#{$rowElements}) );
+  --fieldHeight: calc(var(--mainSize) / (#{$rowElements} + 2) * 1.5);
+  --fieldWidth: calc((var(--mainSize) - var(--fieldHeight) * 2) / (#{$rowElements}));
   @media (max-width: 600px) {
     --paddings: 10px;
   }
 
   --paddingsX2: calc(var(--paddings) * 2);
-
 
 
   $maxWidth: calc((100vw / ($rowElements + 2)) - var(--paddings));
@@ -93,6 +91,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  perspective: 300vh;
+  perspective-origin: 50% 50%;
+  --rotate:rotateX(0);
 
   .switch-3d {
     display: flex;
@@ -110,13 +111,11 @@ export default {
   }
 
   &.view-3d {
-    perspective: 300vh;
-    perspective-origin: 50% 50%;
-    --mainSize:min(70vw - var(--paddingsX2), 100vh - var(--paddingsX2));
+    --mainSize: min(70vw - var(--paddingsX2), 100vh - var(--paddingsX2));
+    --rotate:rotateX(-90deg);
 
     .monopoly-board {
       transform: rotateX(55deg) rotateZ(45deg);
-      transform-style: preserve-3d;
     }
   }
 
@@ -126,13 +125,16 @@ export default {
     align-items: center;
     width: fit-content;
     transition: all 0.3s;
-    max-height: calc(var(--mainSize) );
-    max-width: calc(var(--mainSize) );
+    max-height: calc(var(--mainSize));
+    max-width: calc(var(--mainSize));
     aspect-ratio: 1/1;
+    transform-style: preserve-3d;
 
     .row {
       display: flex;
       width: 100%;
+
+      transform-style: preserve-3d;
     }
 
     .corner {
@@ -141,15 +143,17 @@ export default {
       background: $cornerColor;
       border: 1px solid $shadowColor;
       box-shadow: 1px 1px 0px $shadowColor,
-        2px 2px 0px $shadowColor,
-        3px 3px 0px $shadowColor,
-        4px 4px 0px $shadowColor,
-        5px 5px 0px $shadowColor,
-        6px 6px 0px $shadowColor,
+      2px 2px 0px $shadowColor,
+      3px 3px 0px $shadowColor,
+      4px 4px 0px $shadowColor,
+      5px 5px 0px $shadowColor,
+      6px 6px 0px $shadowColor,
     }
 
     .elements {
       display: flex;
+
+      transform-style: preserve-3d;
 
       &.column {
         flex-direction: column;
@@ -157,11 +161,11 @@ export default {
         &.last-no-shadow {
           .row-element:last-child {
             box-shadow: 1px 0px 0px $shadowColor,
-              2px 0px 0px $shadowColor,
-              3px 0px 0px $shadowColor,
-              4px 0px 0px $shadowColor,
-              5px 0px 0px $shadowColor,
-              6px 0px 0px $shadowColor,
+            2px 0px 0px $shadowColor,
+            3px 0px 0px $shadowColor,
+            4px 0px 0px $shadowColor,
+            5px 0px 0px $shadowColor,
+            6px 0px 0px $shadowColor,
           }
 
         }
@@ -170,6 +174,8 @@ export default {
 
     .center-board {
       flex-grow: 1;
+      background: url(../assets/map.svg) 50% 50% no-repeat;
+      background-size:cover;
     }
   }
 }
