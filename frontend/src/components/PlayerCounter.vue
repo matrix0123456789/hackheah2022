@@ -1,5 +1,7 @@
 <template>
-  <div class="player-counter" :class="[className, 'counter-'+color]" :style="{'--position':position}"></div>
+  <div class="player-counter" :class="[className, 'counter-'+color]" :style="{'--position':position}">
+    <img :src="'/src/assets/pionki/' + color + '.png'">
+  </div>
 </template>
 <script>
 export default {
@@ -35,8 +37,8 @@ export default {
   width: 20px;
   height: 60px;
   position: absolute;
-  border-top-left-radius: 100%;
-  border-top-right-radius: 100%;
+  //border-top-left-radius: 100%;
+  //border-top-right-radius: 100%;
   transform: var(--rotate);
   transform-origin: bottom;
   filter: drop-shadow(0 0 5px black);
@@ -45,7 +47,8 @@ export default {
   &.bottom-right {
     top: calc(var(--mainSize) - var(--fieldHeight) * 0.5  + var(--fieldColorMargin));
     left: calc(var(--mainSize) - var(--fieldHeight) * 0.5  + var(--fieldColorMargin));
-    transform: rotate(-45deg);
+    transform: rotate(0deg);
+    margin: -50px 0;
   }
 
   &.bottom {
@@ -62,9 +65,9 @@ export default {
 
   &.left {
     left: var(--fieldHeight);
-    transform: rotate(-90deg);
+    transform: rotate(0deg);
     transform-origin: 0 100%;
-    margin: 0 -10px;
+    margin: 0 -30px;
   top: calc((19 - var(--position) ) * var(--fieldWidth) + var(--fieldHeight) + var(--fieldColorMargin));
   }
 
@@ -83,7 +86,7 @@ export default {
   &.top-right {
     top: calc(var(--fieldHeight) * 0.5  + var(--fieldColorMargin));
     left: calc(var(--mainSize) - var(--fieldHeight) * 0.5  + var(--fieldColorMargin));
-    transform: rotate(-45deg);
+    transform: rotate(0deg);
   }
 
   &.right {
@@ -120,6 +123,11 @@ export default {
     --fieldColorMargin:calc(var(--fieldWidth) * 0.3);
     background-image: url(../assets/yellow.png);
     background-size: contain;
+  }
+
+  img{
+    width: 100%;
+    height: 100%;
   }
 }
 </style>
