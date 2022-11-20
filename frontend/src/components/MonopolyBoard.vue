@@ -1,38 +1,41 @@
 <template>
-  <div class="monopoly-board-wrapper" :class="{ 'view-3d': is3D }">
+  <div class="monopoly-board-wrapper" :class="{ 'view-3d': is3D }" @click="selectedField=null">
     <button class="switch-3d" @click="is3D = !is3D">
       {{ is3D ? '2D' : '3D' }}
     </button>
-
+    <field-tooltip v-if="selectedField" :field="selectedField.field" :x="selectedField.x" :y="selectedField.y" @click.stop/>
     <div class="monopoly-board">
       <div class="row">
-        <div class="corner">Bezpłatny parking?</div>
+        <div class="corner parking">Bezpłatny parking?</div>
         <div class="elements last-in-row-no-shadow">
-          <RowElement v-for="element in rowElementsTop" :element="element"></RowElement>
+          <RowElement v-for="element in rowElementsTop" :element="element" @click.stop="select($event, element)"></RowElement>
         </div>
-        <div class="corner">Idziesz na odpoczynek</div>
+        <div class="corner rest">Idziesz na odpoczynek</div>
       </div>
 
       <div class="row">
         <div class="elements column last-no-shadow">
-          <RowElement v-for="element in rowElementsLeft" :element="element" :column="true"></RowElement>
+          <RowElement v-for="element in rowElementsLeft" :element="element" :column="true"
+                      @click.stop="select($event, element)"></RowElement>
         </div>
         <div class="center-board"></div>
         <div class="elements column">
-          <RowElement v-for="element in rowElementsRight" :element="element" :column="true"></RowElement>
+          <RowElement v-for="element in rowElementsRight" :element="element" :column="true"
+                      @click.stop="select($event, element)"></RowElement>
         </div>
       </div>
 
       <div class="row">
-        <div class="corner">Miejsce odpoczynku</div>
+        <div class="corner rest-place">Miejsce odpoczynku</div>
         <div class="elements">
-          <RowElement v-for="element in rowElementsBottom" :element="element"></RowElement>
+          <RowElement v-for="element in rowElementsBottom" :element="element"
+                      @click.stop="select($event, element)"></RowElement>
         </div>
-        <div class="corner" style="z-index: 2;">Start</div>
+        <div class="corner start" style="z-index: 2;">Start</div>
       </div>
       <template v-if="websocketStore.allData && websocketStore.allData.game">
         <player-counter v-for="player in websocketStore.allData.game.players" :position="player.position"
-          :color="player.color" />
+                        :color="player.color"/>
       </template>
     </div>
     <div class="players" v-if="websocketStore.allData && websocketStore.allData.game">
@@ -40,7 +43,7 @@
       <div :class="['player', 'player-' + player.color]" v-for="player in websocketStore.allData.game.players">
 
 
-        <span>{{ player.name }}</span>, {{ player.money }}<img src="../assets/monety.png" />
+        <span>{{ player.name }}</span>, {{ player.money }}<img src="../assets/monety.png"/>
 
         <!-- <div class="name">{{ player.name }}</div>
         <div class="money">
@@ -58,12 +61,14 @@
 
 <script>
 import RowElement from './RowElement.vue';
-import { BoardsFields } from "../data";
-import { useWebsocketStore } from '@/stores/websocketStore'
+import {BoardsFields} from "../data";
+import {useWebsocketStore} from '@/stores/websocketStore'
 import PlayerCounter from "./PlayerCounter.vue";
+import FieldTooltip from "./FieldTooltip.vue";
 
 export default {
   components: {
+    FieldTooltip,
     RowElement, PlayerCounter
   },
   props: {
@@ -75,6 +80,12 @@ export default {
     return {
       is3D: false,
       websocketStore: useWebsocketStore(),
+      selectedField: null
+    }
+  },
+  methods: {
+    select(e, field) {
+      this.selectedField = {field, x: e.pageX, y: e.pageY}
     }
   },
   computed: {
@@ -135,9 +146,9 @@ export default {
     left: calc(100vw - 75px);
     top: 70px;
     border-radius: 50%;
-            border: 4px solid rgba(106,59,8,1);
-            width: 55px;
-            height: 55px;
+    border: 4px solid rgba(106, 59, 8, 1);
+    width: 55px;
+    height: 55px;
   }
 
 
@@ -152,9 +163,11 @@ export default {
     .column {
       --rotate: rotateX(-90deg);
     }
-    .player-counter{
+
+    .player-counter {
       transform: rotateX(-90deg);
-      &.right, &.left{
+
+      &.right, &.left {
         transform: rotateZ(-90deg) rotateX(-90deg);
 
       }
@@ -181,21 +194,34 @@ export default {
     .corner {
       &.shorter {
         box-shadow: 1px 1px 0px $shadowColor,
-          2px 2px 0px $shadowColor,
-          3px 3px 0px $shadowColor,
-          6px 4.5px 0 $shadowColor,
+        2px 2px 0px $shadowColor,
+        3px 3px 0px $shadowColor,
+        6px 4.5px 0 $shadowColor,
       }
 
       width: var(--fieldHeight);
       height: var(--fieldHeight);
-      background: $cornerColor;
+      background: $cornerColor 50% 50% no-repeat;
+      background-size: contain;
       border: 1px solid $shadowColor;
       box-shadow: 1px 1px 0px $shadowColor,
       2px 2px 0px $shadowColor,
       3px 3px 0px $shadowColor,
       4px 4px 0px $shadowColor,
       5px 5px 0px $shadowColor,
-      6px 6px 0px $shadowColor,
+      6px 6px 0px $shadowColor;
+      &.parking{
+        background-image: url(../assets/parking.png);
+      }
+      &.restPlace{
+        background-image: url(../assets/odpoczynek.png);
+      }
+      &.rest{
+        background-image: url(../assets/odpoczynek.png);
+      }
+      &.start{
+        background-image: url(../assets/);
+      }
     }
 
     .elements {
@@ -209,11 +235,11 @@ export default {
         &.last-no-shadow {
           .row-element:last-child {
             box-shadow: 1px 0px 0px $shadowColor,
-              2px 0px 0px $shadowColor,
-              3px 0px 0px $shadowColor,
-              4px 0px 0px $shadowColor,
-              5px 0px 0px $shadowColor,
-              6px 0px 0px $shadowColor,
+            2px 0px 0px $shadowColor,
+            3px 0px 0px $shadowColor,
+            4px 0px 0px $shadowColor,
+            5px 0px 0px $shadowColor,
+            6px 0px 0px $shadowColor,
           }
         }
       }

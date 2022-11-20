@@ -79,9 +79,9 @@ export class Game {
         return {
             id: this.id,
             players: this.players.map(x => x.allDataToJson()),
-            board: this.board.map(x => x.allDataToJson()),
+            board: this.board.map((x, id) => ({id, ...x.allDataToJson()})),
             status: this.status,
-            currentTurn: this.players[this.currentTurnIndex].id,
+            currentTurn: this.players[this.currentTurnIndex]?.id,
             currentTurnRolled: this.currentTurnRolled
         }
     }
@@ -114,7 +114,7 @@ export class Game {
 
         let random = [randomDice(), randomDice()]
         for (const player of this.players) {
-            player.send('randomResult', {player: player.id, dices:random})
+            player.send('randomResult', {player: player.id, dices: random})
         }
         let randomSum = random[0] + random[1];
         this.currentTurnRolled = true;
