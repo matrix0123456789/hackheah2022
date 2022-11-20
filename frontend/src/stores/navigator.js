@@ -8,16 +8,16 @@ export const useNavigatorStore = defineStore('navigator', () => {
         game: "game"
     }
 
-    let _currentPage = _pages.home;
+    let _currentPage = ref(_pages.home);
 
-    const currentPage = computed(() => _currentPage )
+    const currentPage = computed(() => _currentPage.value )
     const pages = computed(() => _pages )
 
     function goToPage(page) {
         console.log("goToPage", page);
 
         if(_pages[page]){
-            _currentPage = page
+            _currentPage.value = page
         }
     }
 
