@@ -51,7 +51,6 @@ export default {
     background-image: url("../assets/bg.png");
     background-repeat: no-repeat, repeat;
     background-size: cover;
-    /* Resize the background image to cover the entire container */
     filter: grayscale(100%);
   }
 

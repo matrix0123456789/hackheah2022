@@ -3,6 +3,7 @@
     <button class="switch-3d" @click="is3D = !is3D">
       {{ is3D ? '2D' : '3D' }}
     </button>
+    <!-- <button class='roll-button' @click="rollDice">Roll</button> -->
 
     <div class="monopoly-board">
       <div class="row">
@@ -17,7 +18,10 @@
         <div class="elements column last-no-shadow">
           <RowElement v-for="element in rowElementsLeft" :element="element" :column="true"></RowElement>
         </div>
-        <div class="center-board"></div>
+        <div class="center-board">
+          <RollDice ref="rollDiceRef"></RollDice>
+        </div>
+
         <div class="elements column">
           <RowElement v-for="element in rowElementsRight" :element="element" :column="true"></RowElement>
         </div>
@@ -38,22 +42,10 @@
     <div class="players" v-if="websocketStore.allData && websocketStore.allData.game">
 
       <div :class="['player', 'player-' + player.color]" v-for="player in websocketStore.allData.game.players">
-
-
         <span>{{ player.name }}</span>, {{ player.money }}<img src="../assets/monety.png" />
-
-        <!-- <div class="name">{{ player.name }}</div>
-        <div class="money">
-          {{ player.money }}
-          <img src="../assets/monety.png" />
-        </div> -->
       </div>
     </div>
   </div>
-
-  <!-- <div class="list p0">
-                <span>NickName</span>, 300<img src="./monety.png">
-            </div> -->
 </template>
 
 <script>
@@ -61,10 +53,11 @@ import RowElement from './RowElement.vue';
 import { BoardsFields } from "../data";
 import { useWebsocketStore } from '@/stores/websocketStore'
 import PlayerCounter from "./PlayerCounter.vue";
+import RollDice from "./RollDice.vue";
 
 export default {
   components: {
-    RowElement, PlayerCounter
+    RowElement, PlayerCounter, RollDice
   },
   props: {
     column: {
@@ -89,6 +82,11 @@ export default {
     },
     rowElementsRight() {
       return (this.websocketStore?.allData?.game?.board || BoardsFields).slice(31, 40);
+    }
+  },
+  methods: {
+    rollDice() {
+      this.$refs.rollDiceRef.rollDice();
     }
   }
 }
@@ -135,9 +133,16 @@ export default {
     left: calc(100vw - 75px);
     top: 70px;
     border-radius: 50%;
-            border: 4px solid rgba(106,59,8,1);
-            width: 55px;
-            height: 55px;
+    border: 4px solid rgba(106, 59, 8, 1);
+    width: 55px;
+    height: 55px;
+  }
+
+  .roll-button {
+    cursor: pointer;
+    position: absolute;
+    left: 15px;
+    top: 70px;
   }
 
 
@@ -216,6 +221,7 @@ export default {
       flex-grow: 1;
       background: url(../assets/map.svg) 50% 50% no-repeat;
       background-size: cover;
+      position: relative;
     }
   }
 

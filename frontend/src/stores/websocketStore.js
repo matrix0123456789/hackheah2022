@@ -39,6 +39,14 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
         }
     }
 
+    function rollDice(){
+        if (!ws) {
+            return;
+        }
+
+        ws.send(JSON.stringify({name: "rollDice"}));
+    }
+
     function connect(username = '') {
         ws = new WebSocket(websocketAddress + '/' + encodeURIComponent(username));
        window.dbg=ws;
@@ -143,6 +151,7 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
         createGame,
         allData,
         joinGame,
-        startGame
+        startGame,
+        rollDice
     }
 })
