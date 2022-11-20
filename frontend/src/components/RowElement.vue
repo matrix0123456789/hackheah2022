@@ -24,6 +24,9 @@
       <template v-else-if="element.type=='tavern'">
         <div class="name">Karczma</div>
       </template>
+      <template v-else-if="element.type=='church'">
+        <div class="name">Kościół</div>
+      </template>
       <template v-else>{{ element.type }}</template>
 
     </div>

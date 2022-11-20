@@ -2,7 +2,7 @@
   <div class="field-tooltip" :style="{left:x+'px', top:y+'px'}">
     <template v-if="field.type=='village'">
       <div class="name">{{ field.name }}</div>
-      <div class="keyvalue">
+      <div class="keyValue">
         <div>Właściciel</div>
         <div>{{ owner?.name ?? 'brak' }} <span v-if="amIOwner">(Ty)</span></div>
       </div>
@@ -10,7 +10,7 @@
     </template>
     <template v-else-if="field.type=='windmill'">
       <div class="name">Młyn</div>
-      <div class="keyvalue">
+      <div class="keyValue">
         <div>Właściciel</div>
         <div>{{ owner?.name ?? 'brak' }} <span v-if="amIOwner">(Ty)</span></div>
       </div>
@@ -25,6 +25,9 @@
     </template>
     <template v-else-if="field.type=='tavern'">
       <div class="name">Karczma</div>
+    </template>
+    <template v-else-if="field.type=='church'">
+      <div class="name">Kościół</div>
     </template>
     <template v-else>{{ field.type }}</template>
   </div>
@@ -67,12 +70,12 @@ export default {
   position: absolute;
   z-index: 10;
   padding: 8px;
-  min-width: 150px;
+  min-width: 160px;
   min-height: 300px;
 
   .keyValue {
     display: grid;
-    grid-template-columns: 100px 100px;
+    grid-template-columns: 80px 80px;
 
     :first-child {
 

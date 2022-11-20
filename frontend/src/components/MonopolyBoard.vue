@@ -6,7 +6,7 @@
     <field-tooltip v-if="selectedField" :field="selectedField.field" :x="selectedField.x" :y="selectedField.y" @click.stop/>
     <div class="monopoly-board">
       <div class="row">
-        <div class="corner parking">Bezpłatny parking?</div>
+        <div class="corner parking">Studnia</div>
         <div class="elements last-in-row-no-shadow">
           <RowElement v-for="element in rowElementsTop" :element="element" @click.stop="select($event, element)"></RowElement>
         </div>
@@ -201,9 +201,12 @@ export default {
 
       width: var(--fieldHeight);
       height: var(--fieldHeight);
+      box-sizing: border-box;
       background: $cornerColor 50% 50% no-repeat;
       background-size: contain;
       border: 1px solid $shadowColor;
+      padding: 6px;
+      text-align: center;
       box-shadow: 1px 1px 0px $shadowColor,
       2px 2px 0px $shadowColor,
       3px 3px 0px $shadowColor,
@@ -213,14 +216,20 @@ export default {
       &.parking{
         background-image: url(../assets/parking.png);
       }
-      &.restPlace{
+      &.rest-place{
         background-image: url(../assets/odpoczynek.png);
       }
       &.rest{
-        background-image: url(../assets/odpoczynek.png);
+        font-size: 1.5em;
+        display: grid;
+        justify-content: center;
+        align-content: center;
       }
       &.start{
-        background-image: url(../assets/);
+        font-size: 2em;
+        display: grid;
+        justify-content: center;
+        align-content: center;
       }
     }
 
