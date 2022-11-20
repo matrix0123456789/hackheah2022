@@ -5,6 +5,7 @@ import {useNavigatorStore} from '@/stores/navigator'
 export const useWebsocketStore = defineStore('websocketStore', () => {
     const _games = reactive([]);
     const _allData = reactive({});
+    const _allData = reactive({});
     const websocketAddress = "ws://localhost:3000";
     const websocketAddressAPI = "http://localhost:3000";
     const _userName = ref("");
@@ -12,6 +13,8 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
     const _connected = ref(false);
     const _connectionError = ref(false);
     const navigator = useNavigatorStore();
+    const _randomResults = reactive({});
+    const _toogleRandomResults = ref(true);
 
     const games = computed(() => _games)
     const allData = computed(() => _allData.value)
@@ -19,6 +22,8 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
     const connecting = computed(() => _connecting.value)
     const connected = computed(() => _connected.value)
     const connectionError = computed(() => _connectionError.value)
+    const randomResults = computed(() => _randomResults.value)
+    const toogleRandomResults = computed(() => _toogleRandomResults.value)
 
     let ws = null;
 
@@ -34,9 +39,17 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
                 console.log("allData!!!");
                 loadGameView(message.data);
                 return;
+            case "randomResult":
+                manageRandomResults(message.data);
+                return;
             default:
                 return;
         }
+    }
+
+    function manageRandomResults(res) {
+        _randomResults.value = res;
+        _toogleRandomResults.value = !_toogleRandomResults.value;
     }
 
     function connect(username = '') {
@@ -143,6 +156,8 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
         createGame,
         allData,
         joinGame,
-        startGame
+        startGame,
+        randomResults,
+        toogleRandomResults
     }
 })
