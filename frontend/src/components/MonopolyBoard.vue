@@ -31,14 +31,15 @@
         <div class="corner" style="z-index: 2;">Start</div>
       </div>
       <template v-if="websocketStore.allData&&websocketStore.allData.game">
-      <player-counter v-for="player in websocketStore.allData.game.players" :position="player.position" :color="player.color"/>
+        <player-counter v-for="player in websocketStore.allData.game.players" :position="player.position"
+                        :color="player.color"/>
       </template>
     </div>
     <div class="players" v-if="websocketStore.allData&&websocketStore.allData.game">
 
       <div :class="['player', 'player-'+player.color]" v-for="player in websocketStore.allData.game.players">
-        <div class="name">{{player.name}}</div>
-        <div class="money">{{player.money}}</div>
+        <div class="name">{{ player.name }}</div>
+        <div class="money">{{ player.money }}</div>
       </div>
     </div>
   </div>
@@ -46,7 +47,7 @@
 
 <script>
 import RowElement from './RowElement.vue';
-import { BoardsFields } from "../data";
+import {BoardsFields} from "../data";
 import {useWebsocketStore} from '@/stores/websocketStore'
 import PlayerCounter from "./PlayerCounter.vue";
 
@@ -62,15 +63,25 @@ export default {
   },
   data() {
     return {
-      rowElements: 9,
-      rowElementsTop: BoardsFields.slice(21, 30),
-      rowElementsBottom: BoardsFields.slice(1, 10).reverse(),
-      rowElementsLeft: BoardsFields.slice(11, 20).reverse(),
-      rowElementsRight: BoardsFields.slice(31, 40),
       is3D: false,
       websocketStore: useWebsocketStore(),
     }
   },
+  computed: {
+
+    rowElementsTop() {
+      return (this.websocketStore?.allData?.game?.board||BoardsFields).slice(21, 30);
+    },
+    rowElementsBottom() {
+      return (this.websocketStore?.allData?.game?.board||BoardsFields).slice(1, 10).reverse();
+    },
+    rowElementsLeft() {
+      return (this.websocketStore?.allData?.game?.board||BoardsFields).slice(11, 20).reverse();
+    },
+    rowElementsRight() {
+      return (this.websocketStore?.allData?.game?.board||BoardsFields).slice(31, 40);
+    }
+  }
 }
 </script>
 
@@ -125,13 +136,14 @@ export default {
 
   &.view-3d {
     --mainSize: min(70vw - var(--paddingsX2), 100vh - var(--paddingsX2));
-    --rotate: rotateX(-90deg) rotateZ(0deg)  rotateY(45deg);
+    --rotate: rotateX(-90deg) rotateZ(0deg) rotateY(45deg);
 
     .monopoly-board {
       transform: rotateX(55deg) rotateZ(45deg);
     }
-    .column{
-      --rotate: rotateX(-90deg) rotateZ(0deg)  rotateY(-45deg);
+
+    .column {
+      --rotate: rotateX(-90deg) rotateZ(0deg) rotateY(-45deg);
     }
   }
 
