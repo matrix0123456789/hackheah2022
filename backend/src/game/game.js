@@ -5,7 +5,7 @@ import {Start} from "../board/start.js";
 import {Village} from "../board/village.js";
 import {Field} from "../board/field.js";
 import {Leaderboard} from "../player/leaderboard.js";
-import {Chance} from "../core/chance.js";
+import {Chance} from "../board/chance.js";
 import {Tavern} from "../board/tavern.js";
 import {Tax} from "../board/tax.js";
 import {Resting} from "../board/resting.js";
@@ -113,6 +113,9 @@ export class Game {
         if (this.currentTurnRolled) return;
 
         let random = [randomDice(), randomDice()]
+        for (const player of this.players) {
+            player.send('randomResult', {player: player.id, dices:random})
+        }
         let randomSum = random[0] + random[1];
         this.currentTurnRolled = true;
         player.position += randomSum;

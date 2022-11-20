@@ -148,14 +148,21 @@ export default {
 
   &.view-3d {
     --mainSize: min(70vw - var(--paddingsX2), 100vh - var(--paddingsX2));
-    --rotate: rotateX(-90deg) rotateZ(0deg) rotateY(45deg);
+    --rotate: rotateX(-90deg);
 
     .monopoly-board {
       transform: rotateX(55deg) rotateZ(45deg);
     }
 
     .column {
-      --rotate: rotateX(-90deg) rotateZ(0deg) rotateY(-45deg);
+      --rotate: rotateX(-90deg);
+    }
+    .player-counter{
+      transform: rotateX(-90deg);
+      &.right, &.left{
+        transform: rotateZ(-90deg) rotateX(-90deg);
+
+      }
     }
   }
 

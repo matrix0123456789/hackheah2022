@@ -4,7 +4,7 @@
       <template v-if="element==null"></template>
       <template v-else-if="element.type=='village'">
         <div class="colorBlock" :class="element.country">
-          <div class="house"></div>
+          <div class="house" v-for="i in element.houseCount"></div>
         </div>
         <div class="name">{{ element.name }}</div>
         <div class="price">{{ element.price }}</div>

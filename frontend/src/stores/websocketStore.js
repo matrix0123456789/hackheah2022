@@ -1,6 +1,14 @@
-import {ref, computed, reactive} from 'vue'
-import {defineStore} from 'pinia'
-import {useNavigatorStore} from '@/stores/navigator'
+import {
+    ref,
+    computed,
+    reactive
+} from 'vue'
+import {
+    defineStore
+} from 'pinia'
+import {
+    useNavigatorStore
+} from '@/stores/navigator'
 
 export const useWebsocketStore = defineStore('websocketStore', () => {
     const _games = reactive([]);
@@ -12,6 +20,8 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
     const _connected = ref(false);
     const _connectionError = ref(false);
     const navigator = useNavigatorStore();
+    const _randomResults = reactive({});
+    const _toogleRandomResults = ref(true);
 
     const games = computed(() => _games)
     const allData = computed(() => _allData.value)
@@ -19,6 +29,8 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
     const connecting = computed(() => _connecting.value)
     const connected = computed(() => _connected.value)
     const connectionError = computed(() => _connectionError.value)
+    const randomResults = computed(() => _randomResults.value)
+    const toogleRandomResults = computed(() => _toogleRandomResults.value)
 
     let ws = null;
 
@@ -34,22 +46,32 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
                 console.log("allData!!!");
                 loadGameView(message.data);
                 return;
+            case "randomResult":
+                manageRandomResults(message.data);
+                return;
             default:
                 return;
         }
     }
 
-    function rollDice(){
+    function rollDice() {
         if (!ws) {
             return;
         }
 
-        ws.send(JSON.stringify({name: "rollDice"}));
+        ws.send(JSON.stringify({
+            name: "rollDice"
+        })); 
+    }
+
+    function manageRandomResults(res) {
+        _randomResults.value = res;
+        _toogleRandomResults.value = !_toogleRandomResults.value;
     }
 
     function connect(username = '') {
         ws = new WebSocket(websocketAddress + '/' + encodeURIComponent(username));
-       window.dbg=ws;
+        window.dbg = ws;
         _connecting.value = false;
 
         ws.onopen = () => {
@@ -84,12 +106,14 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
         };
     }
 
-    function startGame(){
+    function startGame() {
         if (!ws) {
             return;
         }
 
-        ws.send(JSON.stringify({name: "start"}));
+        ws.send(JSON.stringify({
+            name: "start"
+        }));
     }
 
     function createGame() {
@@ -97,7 +121,9 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
             return;
         }
 
-        ws.send(JSON.stringify({name: "createGame"}));
+        ws.send(JSON.stringify({
+            name: "createGame"
+        }));
     }
 
     function joinGame(id) {
@@ -105,13 +131,16 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
             return;
         }
 
-        ws.send(JSON.stringify({name: "joinGame", data: id}));
+        ws.send(JSON.stringify({
+            name: "joinGame",
+            data: id
+        }));
     }
 
     function loadGameView(newAlleData) {
         _allData.value = newAlleData;
         // _allData = reactive(newAlleData.data);
-         Object.assign(_allData, newAlleData.data);
+        Object.assign(_allData, newAlleData.data);
         //
         // for (let prop in newAlleData.data){
         //     if(newAlleData.data.hasOwnProperty(prop)){
@@ -119,7 +148,7 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
         //     }
         // }
 
-        if(newAlleData){
+        if (newAlleData) {
             navigator.goToPage(navigator.pages.game);
         }
     }
@@ -152,6 +181,8 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
         allData,
         joinGame,
         startGame,
-        rollDice
+        rollDice,
+        randomResults,
+        toogleRandomResults
     }
 })

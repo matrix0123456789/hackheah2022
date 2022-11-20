@@ -97,20 +97,31 @@ export default {
   computed: {
     isRolling() {
       return this.websocketStore?.allData.currentPlayer.id == this.websocketStore?.allData.game.currentTurn;
+    },
+    toggleRandoms() {
+      return this.websocketStore.toogleRandomResults;
+    },
+    randomResults() {
+      console.log('this.websocketStore.randomResults', this.websocketStore.randomResults)
+
+      return this.websocketStore.randomResults.dices;
+
     }
   },
   methods: {
-    roll(){
+    roll() {
       this.websocketStore?.rollDice();
     },
-    rollDice() {
-      this.roll();
-      
+    rollDice(num1, num2, stopRoll = false) {
       const elDiceOne = document.getElementById('dice1');
       const elDiceTwo = document.getElementById('dice2');
 
-      var diceOne = Math.floor((Math.random() * 6) + 1);
-      var diceTwo = Math.floor((Math.random() * 6) + 1);
+      var diceOne = num1;
+      var diceTwo = num2;
+
+      console.log('diceOne', diceOne)
+      console.log('diceTwo', diceTwo)
+
 
       for (var i = 1; i <= 6; i++) {
         elDiceOne.classList.remove('show-' + i);
@@ -125,9 +136,22 @@ export default {
           elDiceTwo.classList.add('show-' + k);
         }
       }
-      setTimeout(rollDice(), 1000);
+
+
+      // if (!stopRoll) {
+        // setTimeout(this.rollDice(num1, num2, true), 1000);
+      // }
+
+      this.roll();
+
     }
-  }
+  },
+  watch: {
+    // whenever question changes, this function will run
+    toggleRandoms(newQuestion, oldQuestion) {
+      this.rollDice(this.randomResults[0], this.randomResults[1]);
+    }
+  },
 }
 </script>
   
@@ -235,23 +259,23 @@ export default {
     transform: rotateX(720deg) rotateZ(-720deg);
   }
 
-  .show-6 {
+  .show-2 {
     transform: rotateX(-900deg) rotateZ(1080deg);
   }
 
-  .show-3 {
+  .show-6 {
     transform: rotateY(-450deg) rotateZ(-1440deg);
   }
 
-  .show-4 {
+  .show-3 {
     transform: rotateY(810deg) rotateZ(720deg);
   }
 
-  .show-5 {
+  .show-4 {
     transform: rotateX(-810deg) rotateZ(-1080deg);
   }
 
-  .show-2 {
+  .show-5 {
     transform: rotateX(450deg) rotateZ(-720deg);
   }
 
