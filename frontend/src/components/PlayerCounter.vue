@@ -40,22 +40,23 @@ export default {
   transform: var(--rotate);
   transform-origin: bottom;
   filter: drop-shadow(0 0 5px black);
+  transition: all ease 1s;
 
   &.bottom-right {
-    bottom: calc(var(--fieldHeight) * 0.5);
-    right: calc(var(--fieldHeight) * 0.5);
+    top: calc(var(--mainSize) - var(--fieldHeight) * 0.5  + var(--fieldColorMargin));
+    left: calc(var(--mainSize) - var(--fieldHeight) * 0.5  + var(--fieldColorMargin));
     transform: rotate(-45deg);
   }
 
   &.bottom {
-    margin: 0 -10px;
-    bottom: 0;
-    right: calc((var(--position) - 0.5) * var(--fieldWidth) + var(--fieldHeight));
+    margin: -80px -10px;
+    top: var(--mainSize);
+    left: calc( (9.5 - var(--position) ) * var(--fieldWidth) + var(--fieldHeight) + var(--fieldColorMargin));
   }
 
   &.bottom-left {
-    bottom: calc(var(--fieldHeight) * 0.5);
-    left: calc(var(--fieldHeight) * 0.5);
+    top: calc(var(--mainSize) - var(--fieldHeight) * 0.5  + var(--fieldColorMargin));
+    left: calc(var(--fieldHeight) * 0.5 + var(--fieldColorMargin));
     transform: rotate(-45deg);
   }
 
@@ -63,50 +64,54 @@ export default {
     left: var(--fieldHeight);
     transform: rotate(-90deg);
     transform-origin: 0 100%;
-    margin: -10px 0;
-    bottom: calc((var(--position) - 10.5) * var(--fieldWidth) + var(--fieldHeight));
+    margin: 0 -10px;
+  top: calc((19 - var(--position) ) * var(--fieldWidth) + var(--fieldHeight) + var(--fieldColorMargin));
   }
 
   &.top-left {
-    top: calc(var(--fieldHeight) * 0.5);
-    left: calc(var(--fieldHeight) * 0.5);
+    top: calc(var(--fieldHeight) * 0.5  + var(--fieldColorMargin));
+    left: calc(var(--fieldHeight) * 0.5  + var(--fieldColorMargin));
     transform: rotate(-45deg);
   }
 
   &.top {
     top: var(--fieldHeight);
     margin: -60px 0;
-    left: calc((var(--position) - 20.5) * var(--fieldWidth) + var(--fieldHeight));
+    left: calc((var(--position) - 20.5) * var(--fieldWidth) + var(--fieldHeight) + var(--fieldColorMargin));
   }
 
   &.top-right {
-    top: calc(var(--fieldHeight) * 0.5);
-    right: calc(var(--fieldHeight) * 0.5);
+    top: calc(var(--fieldHeight) * 0.5  + var(--fieldColorMargin));
+    left: calc(var(--mainSize) - var(--fieldHeight) * 0.5  + var(--fieldColorMargin));
     transform: rotate(-45deg);
   }
 
   &.right {
-    right: 0;
+    left: var(--mainSize);
     transform: rotate(-90deg);
     transform-origin: 0 100%;
     margin: 0 -10px;
-    top: calc((var(--position) - 31) * var(--fieldWidth) + var(--fieldHeight));
+    top: calc((var(--position) - 31) * var(--fieldWidth) + var(--fieldHeight) + var(--fieldColorMargin));
   }
 
   &.counter-red {
     background: #ef0163;
+    --fieldColorMargin:calc(var(--fieldWidth) * -0.3);
   }
 
   &.counter-green {
     background: #24af04;
+    --fieldColorMargin:calc(var(--fieldWidth) * -0.1);
   }
 
   &.counter-blue {
     background: #01b7ef;
+    --fieldColorMargin:calc(var(--fieldWidth) * 0.1);
   }
 
   &.counter-yellow {
     background: #c97002;
+    --fieldColorMargin:calc(var(--fieldWidth) * 0.3);
   }
 }
 </style>

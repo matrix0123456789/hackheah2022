@@ -172,6 +172,8 @@ $rowElements: 7;
       }
     }
     &.windmill{
+      display: grid;
+      grid-template-rows: 1fr max-content;
       &::before{
         transform: var(--rotate) ;
         transform-origin: bottom;
@@ -180,7 +182,11 @@ $rowElements: 7;
         content:'';
         display: block;
         height: calc(var(--fieldHeight) * 0.8);
+        width: calc(var(--fieldWidth));
         filter: drop-shadow(0 0 5px black);
+        position: absolute;
+        top: 0;
+        left: 0;
       }
     }
     .price{

@@ -1,7 +1,8 @@
 export class Player {
     name = '';
     position = 0;
-    money = 0;
+    money = 1500;
+    color = '';
 
     constructor(id, socket, name) {
         this.id = id;
@@ -19,7 +20,7 @@ export class Player {
     }
 
     allDataToJson() {
-        return {id: this.id, name: this.name, position: this.position, money: this.money}
+        return {id: this.id, name: this.name, position: this.position, money: this.money, color: this.color}
     }
 
     send(name, data) {

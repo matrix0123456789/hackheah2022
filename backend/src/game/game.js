@@ -42,7 +42,7 @@ export class Game {
         new Resting(),
         new Village('Koruna', 'czekia', 140, 100, [10, 50, 150, 450, 625, 750]),
         new Church(),
-         new Village('Vortova', 'czekia', 140, 100, [10, 50, 150, 450, 625, 750]),
+        new Village('Vortova', 'czekia', 140, 100, [10, 50, 150, 450, 625, 750]),
         new Village('Veprikov', 'czekia', 160, 100, [12, 60, 180, 500, 700, 900]),
         new Windmill(),
         new Village('Ujsolt', 'hungary', 180, 100, [14, 70, 200, 550, 750, 950]),
@@ -80,13 +80,21 @@ export class Game {
             id: this.id,
             players: this.players.map(x => x.allDataToJson()),
             board: this.board.map(x => x.allDataToJson()),
-            status:this.status,
-            currentTurn: this.players[this.currentTurnIndex].id
+            status: this.status,
+            currentTurn: this.players[this.currentTurnIndex].id,
+            currentTurnRolled: this.currentTurnRolled
         }
     }
 
     addPlayer(socket, username) {
+        let colors = ['red', 'green', 'blue', 'yellow']
         let player = Player.createPlayer(socket, username)
+        for (const color of colors) {
+            if (!this.players.some(x => x.color == color)) {
+                player.color = color;
+                break;
+            }
+        }
         this.players.push(player);
         this.updateAll();
         return player;
@@ -102,6 +110,7 @@ export class Game {
     rollDice(player) {
         if (this.players[this.currentTurnIndex] != player) return;
         if (this.status != 'playing') return;
+        if (this.currentTurnRolled) return;
 
         let random = [randomDice(), randomDice()]
         let randomSum = random[0] + random[1];
@@ -130,15 +139,22 @@ export class Game {
         this.updateAll();
     }
 
-    ban(playerId) {
+    banById(playerId) {
         let player = this.players.find(x => x.id == playerId);
+        this.ban(player)
+    }
+
+    ban(player) {
+
         let index = this.players.indexOf(player);
+
+        console.log('ban', index)
         if (index >= 0) {
             this.players.splice(index, 1);
             if (this.currentTurnIndex == index) {
                 this.nextPlayer(player)
             }
-            if(this.players.length==0){
+            if (this.players.length == 0) {
                 Game.allGames.delete(this.id)
             }
             this.updateAll();
@@ -152,7 +168,7 @@ export class Game {
         do {
             this.currentTurnIndex = (this.currentTurnIndex + 1) % this.players.length;
             this.currentTurnRolled = false;
-        } while (this.players[this.currentTurnIndex].money >= 0);
+        } while (this.players[this.currentTurnIndex].money < 0);
         this.updateAll();
     }
 
@@ -161,7 +177,7 @@ export class Game {
         if (this.status != 'playing') return;
         if (!this.currentTurnRolled) return;
         let field = this.board[player.position]
-        if (field instanceof Village && field.owner == null) {
+        if ((field instanceof Village || field instanceof Windmill) && field.owner == null) {
             if (player.money >= field.price) {
                 player.money -= field.price;
                 field.owner = player;
@@ -177,6 +193,8 @@ export class Game {
                     field.owner = next;
                 }
             }
+
+            this.players.forEach(x => x.send('bancrupt', {playerId: player.id}))
         }
         if (this.players.filter(x => x.money >= 0).length == 1) {
             this.status = 'finished'
