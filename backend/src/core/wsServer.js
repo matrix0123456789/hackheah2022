@@ -26,7 +26,7 @@ wsServer.on('connection', (socket, req) => {
                     game.setMyName(player, data);
 
                 } else if (name == 'ban') {
-                    game.ban(data);
+                    game.banById(data);
                 } else if (name == 'skipTurn') {
                     game.nextPlayer(player);
                 } else if (name == 'buyCurrent') {

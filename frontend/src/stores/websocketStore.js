@@ -41,6 +41,7 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
 
     function connect(username = '') {
         ws = new WebSocket(websocketAddress + '/' + encodeURIComponent(username));
+       window.dbg=ws;
         _connecting.value = false;
 
         ws.onopen = () => {

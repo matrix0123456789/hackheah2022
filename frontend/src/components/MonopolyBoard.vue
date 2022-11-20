@@ -30,27 +30,15 @@
         </div>
         <div class="corner" style="z-index: 2;">Start</div>
       </div>
-      <player-counter :position="1" color="red"/>
-      <player-counter :position="8" color="blue"/>
-      <player-counter :position="22" color="green"/>
-      <player-counter :position="35" color="yellow"/>
+      <template v-if="websocketStore.allData&&websocketStore.allData.game">
+      <player-counter v-for="player in websocketStore.allData.game.players" :position="player.position" :color="player.color"/>
+      </template>
     </div>
-    <div class="players">
-      <div class="player player-red">
-        <div class="name">Lorem ipsum</div>
-        <div class="money">100</div>
-      </div>
-      <div class="player player-green">
-        <div class="name">Lorem ipsum</div>
-        <div class="money">100</div>
-      </div>
-      <div class="player player-blue">
-        <div class="name">Lorem ipsum</div>
-        <div class="money">100</div>
-      </div>
-      <div class="player player-yellow">
-        <div class="name">Lorem ipsum</div>
-        <div class="money">100</div>
+    <div class="players" v-if="websocketStore.allData&&websocketStore.allData.game">
+
+      <div :class="['player', 'player-'+player.color]" v-for="player in websocketStore.allData.game.players">
+        <div class="name">{{player.name}}</div>
+        <div class="money">{{player.money}}</div>
       </div>
     </div>
   </div>
