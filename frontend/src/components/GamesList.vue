@@ -6,11 +6,13 @@
       </button>
       <template v-if="games.length">
         <div class="gameInfo" v-for="game in games" @click="joinGame(game.id)">
-          <div class="players" :disabled="game.players.length >= 4">
+          <div class="number">{{ game.id }}.</div>
+          <div class="players" :class="{ disabled: game.players.length >= 4 }">
             <div class="title">Gracze</div>
-            <div v-for="player in game.players" class="player">
-              {{ player.name }}
-
+            <div class="list">
+              <div v-for="player in game.players" class="player">
+                {{ player.name }}
+              </div>
             </div>
           </div>
           <button :class="{ disabled: game.players.length >= 4 }" :disabled="game.players.length >= 4">
@@ -19,7 +21,7 @@
         </div>
       </template>
       <div v-else>
-        <div>Brak aktualnie prowadzonych gier</div>
+        <div class="no-games">Brak aktualnie prowadzonych gier</div>
       </div>
     </div>
   </div>
@@ -45,7 +47,7 @@ export default {
     createGame() {
       this.websocketStore.createGame();
     },
-    joinGame(id){
+    joinGame(id) {
       this.websocketStore.joinGame(id);
     }
   },
@@ -94,6 +96,10 @@ export default {
     max-width: calc(100vw - 100px);
     overflow-y: auto;
 
+    .no-games {
+      font-size: 22px;
+    }
+
     .create-button {
       margin-bottom: 20px;
     }
@@ -107,12 +113,21 @@ export default {
       border-radius: 5px;
       width: calc(100% - 40px);
 
+      .number {
+        margin-right: 10px;
+        font-size: 28px;
+      }
+
       .players {
         display: flex;
         flex-direction: column;
         flex: 1;
         margin-right: 20px;
         font-size: 16px;
+
+        .list {
+          display: flex;
+        }
       }
     }
   }
