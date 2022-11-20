@@ -1,7 +1,7 @@
 <template>
   <div class="app-content">
-    <MonopolyBoard v-if="1"/>
-    <GamesList v-else-if="navigatorStore.currentPage == navigatorStore.pages.gamesList"/>
+    <MonopolyBoard v-if="currentPage == navigatorStore.pages.game"/>
+    <GamesList v-else-if="currentPage == navigatorStore.pages.gamesList"/>
   </div>
 </template>
 
@@ -19,6 +19,11 @@ export default {
   data() {
     return {
       navigatorStore: useNavigatorStore(),
+    }
+  },
+  computed: {
+    currentPage(){
+      return this.navigatorStore.currentPage;
     }
   },
   mounted() {

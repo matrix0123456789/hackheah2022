@@ -4,6 +4,7 @@ import {useNavigatorStore} from '@/stores/navigator'
 
 export const useWebsocketStore = defineStore('websocketStore', () => {
     const _games = reactive([]);
+    const _allData = reactive({});
     const websocketAddress = "ws://localhost:3000";
     const websocketAddressAPI = "http://localhost:3000";
     const _userName = ref("");
@@ -13,6 +14,7 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
     const navigator = useNavigatorStore();
 
     const games = computed(() => _games)
+    const allData = computed(() => _allData)
     const userName = computed(() => _userName.value)
     const connecting = computed(() => _connecting.value)
     const connected = computed(() => _connected.value)
@@ -27,6 +29,10 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
             case "allGames":
                 console.log("allGames!!!");
                 refreshGames(message.data);
+                return;
+            case "allData":
+                console.log("allData!!!");
+                loadGameView(message.data);
                 return;
             default:
                 return;
@@ -80,7 +86,6 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
     }
 
     function createGame() {
-        console.log("sddsdssdsd");
         if (!ws) {
             return;
         }
@@ -88,8 +93,20 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
         ws.send(JSON.stringify({name: "createGame"}));
     }
 
+    function loadGameView(newAlleData) {
+        // while (_games.length)
+        //     _games.pop();
+        //
+        // for (let newGame of newGamesList) {
+        //     _games.push(newGame);
+        // }
+
+        if(newAlleData){
+            navigator.goToPage(navigator.pages.game);
+        }
+    }
+
     function refreshGames(newGamesList) {
-        console.log("newGamesList", newGamesList);
         while (_games.length)
             _games.pop();
 
@@ -113,6 +130,7 @@ export const useWebsocketStore = defineStore('websocketStore', () => {
         connecting,
         connected,
         connectionError,
-        createGame
+        createGame,
+        allData
     }
 })
